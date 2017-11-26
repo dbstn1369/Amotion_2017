@@ -39,7 +39,7 @@ public class SubjectAsyncTask extends AsyncTask<Map<String, String>, Subject, Ar
         ArrayList<Subject> subjects = new ArrayList<>();
 
         try {
-
+            //TODO 아이디 패스워드 입력
             Map<String, String> logindata = new HashMap<String, String>();//로그인하기 위한 data 값들.
             logindata.put("user_id", "");
             logindata.put("user_password", "");
