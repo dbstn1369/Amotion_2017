@@ -77,4 +77,18 @@ public class Subject {
     public void setUser_no(String user_no) {
         this.user_no = user_no;
     }
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "mnid=' " + mnid + " \'" +
+                ", course_id=' " + course_id + " \'" +
+                ", class_no=' " + class_no + " \'" +
+                ", term_year=' " + term_year + " \'" +
+                ", term_cd=' " + term_cd + " \'" +
+                ", subject_cd=' " + subject_cd + " \'" +
+                ", user_no=' " + user_no + " \'" +
+                ", subjectName=' " + subjectName + " \'" +
+                '}';
+    }
 }

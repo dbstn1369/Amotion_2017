@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -14,6 +15,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,22 +30,28 @@ import static android.content.Context.MODE_PRIVATE;
 //나의 강의실 긁어오기
 public class SubjectAsyncTask extends AsyncTask<Map<String, String>, Subject, ArrayList<Subject>> {
 
-    Context context;
+    private Context context;
 
     public SubjectAsyncTask(Context context) {
         this.context = context;
     }
+
+
 
     @Override
     protected ArrayList<Subject> doInBackground(Map<String, String>[] maps) {
 
         ArrayList<Subject> subjects = new ArrayList<>();
 
+
         try {
+
+            JSONObject idpw = new JSONObject(loadJSONFromAsset());
+
             //TODO 아이디 패스워드 입력
             Map<String, String> logindata = new HashMap<String, String>();//로그인하기 위한 data 값들.
-            logindata.put("user_id", "");
-            logindata.put("user_password", "");
+            logindata.put("user_id", idpw.getString("id"));
+            logindata.put("user_password", idpw.getString("pw"));
             logindata.put("group_cd", "UN");
             logindata.put("sub_group_cd", "");
             logindata.put("sso_url", "http://portal.cnu.ac.kr/enview/portal/");
@@ -65,7 +74,7 @@ public class SubjectAsyncTask extends AsyncTask<Map<String, String>, Subject, Ar
 
             Map<String, String> loginTryCookie1 = loginPageResponse.cookies();//로그인을 하여 얻은 쿠키 아래에서 사용함.
 
-            //Log.d("SubjectAsync", loginTryCookie1.toString());
+            Log.d("SubjectAsync", loginTryCookie1.toString());
 
             String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36";
 
@@ -103,7 +112,7 @@ public class SubjectAsyncTask extends AsyncTask<Map<String, String>, Subject, Ar
                 subjects.add(temp);
             }
 
-            Log.d("SubjectAsync", subjects.toString());
+            //Log.d("SubjectAsync", subjects.toString());
 
             // 저장
             SharedPreferences test = context.getSharedPreferences("subjects", MODE_PRIVATE);
@@ -121,4 +130,25 @@ public class SubjectAsyncTask extends AsyncTask<Map<String, String>, Subject, Ar
 
         return null;
     }
+
+    public String loadJSONFromAsset() {
+        String json = null;
+        try {
+
+            InputStream is = context.getAssets().open("idpw.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+
+    }
+
+
 }
