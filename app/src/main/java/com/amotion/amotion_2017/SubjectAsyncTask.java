@@ -19,7 +19,7 @@ import java.util.Map;
  * Created by JSH on 2017-11-26.
  */
 //나의 강의실 긁어오기
-public class BaseAsyncTask extends AsyncTask<Map<String, String>, Subject, ArrayList<Subject>> {
+public class SubjectAsyncTask extends AsyncTask<Map<String, String>, Subject, ArrayList<Subject>> {
 
     @Override
     protected ArrayList<Subject> doInBackground(Map<String, String>[] maps) {
