@@ -1,7 +1,11 @@
 package com.amotion.amotion_2017;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.google.gson.Gson;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -15,11 +19,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by JSH on 2017-11-26.
  */
 //나의 강의실 긁어오기
 public class SubjectAsyncTask extends AsyncTask<Map<String, String>, Subject, ArrayList<Subject>> {
+
+    Context context;
+
+    public SubjectAsyncTask(Context context) {
+        this.context = context;
+    }
 
     @Override
     protected ArrayList<Subject> doInBackground(Map<String, String>[] maps) {
@@ -92,6 +104,15 @@ public class SubjectAsyncTask extends AsyncTask<Map<String, String>, Subject, Ar
             }
 
             Log.d("SubjectAsync", subjects.toString());
+
+            // 저장
+            SharedPreferences test = context.getSharedPreferences("subjects", MODE_PRIVATE);
+            SharedPreferences.Editor editor = test.edit();
+            Gson gson = new Gson();
+            String json = gson.toJson(subjects);
+            editor.putString("Subjects", json);
+            editor.commit();
+
 
         } catch (Exception ex) {
             Log.e("SubjectAsync", "Error");
