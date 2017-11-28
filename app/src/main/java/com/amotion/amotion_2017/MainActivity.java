@@ -13,12 +13,15 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-       @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new SubjectAsyncTask(getApplicationContext()).execute();
+        SubjectAsyncTask subjectAsyncTask = new SubjectAsyncTask(getApplicationContext());
+        subjectAsyncTask.execute();
+
+
         // 병렬 처리시
         /*
         //new SubjectAsyncTask(getApplicationContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -30,19 +33,21 @@ public class MainActivity extends AppCompatActivity {
         }
         */
 
-           try {
-               Thread.sleep(10000);
-           } catch (InterruptedException e) {
-               e.printStackTrace();
-           }
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         //읽을때
         SharedPreferences test = getSharedPreferences("subjects", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = test.getString("Subjects", "");
-        Type listType = new TypeToken<ArrayList<Subject>>(){}.getType();
-        ArrayList<Subject> subjects = gson.fromJson(json,listType );
+        Type listType = new TypeToken<ArrayList<Subject>>() {}.getType();
+        ArrayList<Subject> subjects = gson.fromJson(json, listType);
 
-        System.out.println("test "+subjects.get(0));
+        new SubjectTableAsyncTask(getApplicationContext()).execute(subjects);
+
+        System.out.println("test " + subjects.get(0));
 
     }
 }
