@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         new SubjectAsyncTask(getApplicationContext()).execute();
         // 병렬 처리시
@@ -28,13 +29,20 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         */
+
+           try {
+               Thread.sleep(10000);
+           } catch (InterruptedException e) {
+               e.printStackTrace();
+           }
         //읽을때
         SharedPreferences test = getSharedPreferences("subjects", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = test.getString("Subjects", "");
-        ArrayList<Subject> subjects = gson.fromJson(json, ArrayList.class);
+        Type listType = new TypeToken<ArrayList<Subject>>(){}.getType();
+        ArrayList<Subject> subjects = gson.fromJson(json,listType );
 
-        System.out.println("test");
+        System.out.println("test "+subjects.get(0));
 
     }
 }

@@ -30,19 +30,16 @@ import static android.content.Context.MODE_PRIVATE;
 //나의 강의실 긁어오기
 public class SubjectAsyncTask extends AsyncTask<Map<String, String>, Subject, ArrayList<Subject>> {
 
-    private Context context;
+    private static Context context;
 
     public SubjectAsyncTask(Context context) {
         this.context = context;
     }
 
-
-
     @Override
     protected ArrayList<Subject> doInBackground(Map<String, String>[] maps) {
 
         ArrayList<Subject> subjects = new ArrayList<>();
-
 
         try {
 
@@ -131,7 +128,7 @@ public class SubjectAsyncTask extends AsyncTask<Map<String, String>, Subject, Ar
         return null;
     }
 
-    public String loadJSONFromAsset() {
+    private String loadJSONFromAsset() {
         String json = null;
         try {
 
