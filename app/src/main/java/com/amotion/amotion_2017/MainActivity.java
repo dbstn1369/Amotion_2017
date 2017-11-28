@@ -6,10 +6,19 @@ import android.os.Bundle;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,10 +53,19 @@ public class MainActivity extends AppCompatActivity {
         String json = test.getString("Subjects", "");
         Type listType = new TypeToken<ArrayList<Subject>>() {}.getType();
         ArrayList<Subject> subjects = gson.fromJson(json, listType);
+        Map<String, ArrayList<SubMenu>> subMenus=null;
 
-        new SubjectTableAsyncTask(getApplicationContext()).execute(subjects);
+        try {
+          subMenus = new SubjectTableAsyncTask(getApplicationContext()).execute(subjects).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
-        System.out.println("test " + subjects.get(0));
 
+        System.out.println(subjects);
+        System.out.println(subMenus.toString());
     }
+
 }

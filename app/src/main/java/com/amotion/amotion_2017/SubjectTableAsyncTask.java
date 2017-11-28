@@ -28,7 +28,7 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by JSH on 2017-11-27.asd
  */
 
-public class SubjectTableAsyncTask extends AsyncTask<ArrayList<Subject>, Void, ArrayList<Subject>> {
+public class SubjectTableAsyncTask extends AsyncTask<ArrayList<Subject>, Void, Map<String, ArrayList<SubMenu>>> {
     @SuppressLint("StaticFieldLeak")
 
     private Context context;
@@ -38,22 +38,14 @@ public class SubjectTableAsyncTask extends AsyncTask<ArrayList<Subject>, Void, A
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
+    protected void onPostExecute(Map<String, ArrayList<SubMenu>> stringArrayListMap) {
+        super.onPostExecute(stringArrayListMap);
+
     }
 
     @Override
-    protected void onPostExecute(ArrayList<Subject> subjects) {
-        super.onPostExecute(subjects);
-    }
-
-    @Override
-    protected void onProgressUpdate(Void... values) {
-        super.onProgressUpdate(values);
-    }
-
-    @Override
-    protected ArrayList<Subject> doInBackground(ArrayList<Subject>[] arrayLists) {
+    protected Map<String, ArrayList<SubMenu>> doInBackground(ArrayList<Subject>[] arrayLists) {
+        Map<String, ArrayList<SubMenu>> subMenuMap = new HashMap<>();
         try {
             JSONObject idpw = new JSONObject(loadJSONFromAsset());
 
@@ -89,70 +81,72 @@ public class SubjectTableAsyncTask extends AsyncTask<ArrayList<Subject>, Void, A
 
             ArrayList<Subject> subjects = arrayLists[0];
 
-            Subject subject = subjects.get(0);
 
-            Map<String, String> subMenuData = new HashMap<String, String>();
-            subMenuData.put("mnid", subject.getMnid());
-            subMenuData.put("course_id", subject.getCourse_id());
-            subMenuData.put("class_no", subject.getClass_no());
-            subMenuData.put("term_year", subject.getTerm_year());
-            subMenuData.put("term_cd", subject.getTerm_cd());
-            subMenuData.put("subject_cd", subject.getSubject_cd());
-            subMenuData.put("user_no", subject.getUser_no());
+            for (int index = 0; index < subjects.size(); index++) {
+                Subject subject = subjects.get(index);
 
-            Connection.Response subjectResponse = Jsoup.connect("http://e-learn.cnu.ac.kr/lms/class/classroom/doViewClassRoom_new.dunet")
-                    .userAgent(userAgent)
-                    .timeout(60000)
-                    .header("Origin", "http://e-learn.cnu.ac.kr")
-                    .header("Referer", "http://e-learn.cnu.ac.kr/main/MainView.dunet")
-                    .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
-                    .header("Content-Type", "application/x-www-form-urlencoded")
-                    .header("Accept-Encoding", "gzip, deflate")
-                    .header("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7")
-                    .data(subMenuData)
-                    .cookies(loginTryCookie1)
-                    .method(Connection.Method.POST)
-                    .ignoreContentType(true)
-                    .execute();
+                Map<String, String> subMenuData = new HashMap<String, String>();
+                subMenuData.put("mnid", subject.getMnid());
+                subMenuData.put("course_id", subject.getCourse_id());
+                subMenuData.put("class_no", subject.getClass_no());
+                subMenuData.put("term_year", subject.getTerm_year());
+                subMenuData.put("term_cd", subject.getTerm_cd());
+                subMenuData.put("subject_cd", subject.getSubject_cd());
+                subMenuData.put("user_no", subject.getUser_no());
 
-
-            Document subMenuDocument = subjectResponse.parse();
-
-            //Log.d("SubjectTableAsyncTask", subMenuDocument.toString());
-
-            ArrayList<SubMenu> subMenus = new ArrayList<>();
-
-            Elements subMenuElements = subMenuDocument.select("li.subMenu_list");
-            for (Element e : subMenuElements) {
-                SubMenu temp = new SubMenu();
-
-                temp.setMnid(e.select("input[name=mnid]").first().attr("value"));
-                Element boardno = e.select("input[name=board_no]").first();
+                Connection.Response subjectResponse = Jsoup.connect("http://e-learn.cnu.ac.kr/lms/class/classroom/doViewClassRoom_new.dunet")
+                        .userAgent(userAgent)
+                        .timeout(60000)
+                        .header("Origin", "http://e-learn.cnu.ac.kr")
+                        .header("Referer", "http://e-learn.cnu.ac.kr/main/MainView.dunet")
+                        .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
+                        .header("Content-Type", "application/x-www-form-urlencoded")
+                        .header("Accept-Encoding", "gzip, deflate")
+                        .header("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7")
+                        .data(subMenuData)
+                        .cookies(loginTryCookie1)
+                        .method(Connection.Method.POST)
+                        .ignoreContentType(true)
+                        .execute();
 
 
-                if (boardno == null) {
-                    temp.setBoard_no("");
-                } else {
-                    temp.setBoard_no(boardno.attr("value"));
+                Document subMenuDocument = subjectResponse.parse();
+
+                //Log.d("SubjectTableAsyncTask", subMenuDocument.toString());
+
+                ArrayList<SubMenu> subMenus = new ArrayList<>();
+
+                Elements subMenuElements = subMenuDocument.select("li.subMenu_list");
+                for (Element e : subMenuElements) {
+                    SubMenu temp = new SubMenu();
+
+                    temp.setMnid(e.select("input[name=mnid]").first().attr("value"));
+                    Element boardno = e.select("input[name=board_no]").first();
+
+                    if (boardno == null) {
+                        temp.setBoard_no("");
+                    } else {
+                        temp.setBoard_no(boardno.attr("value"));
+                    }
+                    temp.setMenuName(e.child(0).text());
+                    subMenus.add(temp);
+
                 }
-                temp.setMenuName(e.child(0).text());
-                subMenus.add(temp);
+                subMenuMap.put(subject.getSubjectName(), subMenus);
             }
-
-            for (int i = 0; i < subMenus.size(); i++) {
-                System.out.println(subMenus.get(i));
+            for (int i = 0; i < subMenuMap.size(); i++) {
+                System.out.println(subMenuMap.get(i));
             }
-
             //Log.d("SubjectAsync", subjects.toString());
-/*
+
             // 저장
-            SharedPreferences test = context.getSharedPreferences("subjects", MODE_PRIVATE);
+            SharedPreferences test = context.getSharedPreferences("submenus", MODE_PRIVATE);
             SharedPreferences.Editor editor = test.edit();
             Gson gson = new Gson();
-            String json = gson.toJson("");
-            editor.putString("Subjects", json);
+            String json = gson.toJson(subMenuMap);
+            editor.putString("SubMenu", json);
             editor.commit();
-*/
+
 
         } catch (Exception ex)
 
@@ -160,7 +154,7 @@ public class SubjectTableAsyncTask extends AsyncTask<ArrayList<Subject>, Void, A
             Log.e("SubjectAsync", "Error");
             ex.printStackTrace();
         }
-        return null;
+        return subMenuMap;
     }
 
     private String loadJSONFromAsset() {

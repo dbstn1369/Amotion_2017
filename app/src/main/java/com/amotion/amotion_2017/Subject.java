@@ -80,15 +80,15 @@ public class Subject {
 
     @Override
     public String toString() {
-        return "Subject{" +
-                "mnid=' " + mnid + " \'" +
-                ", course_id=' " + course_id + " \'" +
-                ", class_no=' " + class_no + " \'" +
-                ", term_year=' " + term_year + " \'" +
-                ", term_cd=' " + term_cd + " \'" +
-                ", subject_cd=' " + subject_cd + " \'" +
-                ", user_no=' " + user_no + " \'" +
-                ", subjectName=' " + subjectName + " \'" +
+        return "Subject{ \n" +
+                " mnid=' " + mnid + " \', \n" +
+                " course_id=' " + course_id + " \', \n" +
+                " class_no=' " + class_no + " \', \n" +
+                " term_year=' " + term_year + " \', \n" +
+                " term_cd=' " + term_cd + " \', \n" +
+                " subject_cd=' " + subject_cd + " \', \n" +
+                " user_no=' " + user_no + " \', \n" +
+                " subjectName=' " + subjectName + " \'" +
                 '}';
     }
 }

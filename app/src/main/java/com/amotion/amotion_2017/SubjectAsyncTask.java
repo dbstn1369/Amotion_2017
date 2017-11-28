@@ -94,7 +94,7 @@ public class SubjectAsyncTask extends AsyncTask<Void,Void, ArrayList<Subject>> {
 
             Document subjectPageDocument = subjectResponse.parse();
 
-            //Log.d("SubjectAsync", loginPageDocument.toString());
+
 
 
             Elements subjectElements = subjectPageDocument.select("a.classin2");
@@ -109,6 +109,8 @@ public class SubjectAsyncTask extends AsyncTask<Void,Void, ArrayList<Subject>> {
                 temp.setUser_no(e.attr("user_no"));
                 temp.setSubjectName(e.text());
                 subjects.add(temp);
+
+                System.out.println( temp.toString());
             }
 
             //Log.d("SubjectAsync", subjects.toString());
