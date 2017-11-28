@@ -11,17 +11,12 @@ import java.util.Map;
 
 public class SubjectTableAsyncTask extends AsyncTask<Map<String, String>, Subject, ArrayList<Subject>>
 {
-    @Override
-    protected void onProgressUpdate(Subject... values)
-    {
-        super.onProgressUpdate(values);
-    }
 
     @Override
     protected ArrayList<Subject> doInBackground(Map<String, String>[] maps)
     {
 
-        publishProgress();
+
         return null;
     }
 }
