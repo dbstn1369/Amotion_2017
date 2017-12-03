@@ -1,5 +1,6 @@
 package com.amotion.amotion_2017;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -25,19 +26,20 @@ import java.util.Map;
 import static android.content.Context.MODE_PRIVATE;
 
 /**
- * Created by JSH on 2017-11-26.
+ * Created by JSH on 2017-11-26.asd
  */
 //나의 강의실 긁어오기
-public class SubjectAsyncTask extends AsyncTask<Map<String, String>, Subject, ArrayList<Subject>> {
+public class SubjectAsyncTask extends AsyncTask<Void,Void, ArrayList<Subject>> {
 
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
 
-    public SubjectAsyncTask(Context context) {
-        this.context = context;
+    SubjectAsyncTask(Context context) {
+        SubjectAsyncTask.context = context;
     }
 
     @Override
-    protected ArrayList<Subject> doInBackground(Map<String, String>[] maps) {
+    protected ArrayList<Subject> doInBackground(Void... voids) {
 
         ArrayList<Subject> subjects = new ArrayList<>();
 
@@ -46,14 +48,14 @@ public class SubjectAsyncTask extends AsyncTask<Map<String, String>, Subject, Ar
             JSONObject idpw = new JSONObject(loadJSONFromAsset());
 
             //TODO 아이디 패스워드 입력
-            Map<String, String> logindata = new HashMap<String, String>();//로그인하기 위한 data 값들.
+            Map<String, String> logindata = new HashMap<>();//로그인하기 위한 data 값들.
             logindata.put("user_id", idpw.getString("id"));
             logindata.put("user_password", idpw.getString("pw"));
             logindata.put("group_cd", "UN");
             logindata.put("sub_group_cd", "");
-            logindata.put("sso_url", "http://portal.cnu.ac.kr/enview/portal/");
-            logindata.put("schedule_selected_date", new Date().toString());
-            logindata.put("fnc_return", "");
+            //logindata.put("sso_url", "http://portal.cnu.ac.kr/enview/portal/");
+            //logindata.put("schedule_selected_date", new Date().toString());
+            //logindata.put("fnc_return", "");
 
             // 로그인
             Connection.Response loginPageResponse = Jsoup.connect("http://e-learn.cnu.ac.kr/login/doLogin.dunet")//세션유지를 위한 사이트 연결
@@ -90,12 +92,12 @@ public class SubjectAsyncTask extends AsyncTask<Map<String, String>, Subject, Ar
                     .execute();
 
 
-            Document loginPageDocument = subjectResponse.parse();
-
-            //Log.d("SubjectAsync", loginPageDocument.toString());
+            Document subjectPageDocument = subjectResponse.parse();
 
 
-            Elements subjectElements = loginPageDocument.select("a.classin2");
+
+
+            Elements subjectElements = subjectPageDocument.select("a.classin2");
             for (Element e: subjectElements )
             {
                 Subject temp = new Subject();
@@ -107,6 +109,8 @@ public class SubjectAsyncTask extends AsyncTask<Map<String, String>, Subject, Ar
                 temp.setUser_no(e.attr("user_no"));
                 temp.setSubjectName(e.text());
                 subjects.add(temp);
+
+                System.out.println( temp.toString());
             }
 
             //Log.d("SubjectAsync", subjects.toString());
@@ -146,6 +150,5 @@ public class SubjectAsyncTask extends AsyncTask<Map<String, String>, Subject, Ar
         return json;
 
     }
-
 
 }
