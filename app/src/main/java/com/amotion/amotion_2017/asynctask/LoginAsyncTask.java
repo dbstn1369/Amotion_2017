@@ -21,7 +21,7 @@ public class LoginAsyncTask extends AsyncTask<Map<String, String>, Void, Map<Str
     @SuppressLint("StaticFieldLeak")
     private static Context context;
 
-    LoginAsyncTask(Context context) {
+    public LoginAsyncTask(Context context) {
         LoginAsyncTask.context = context;
     }
 

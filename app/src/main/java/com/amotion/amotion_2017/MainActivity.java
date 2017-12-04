@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
+import com.amotion.amotion_2017.asynctask.SubjectTableAsyncTask;
+import com.amotion.amotion_2017.data.AsyncData;
 import com.amotion.amotion_2017.data.SubMenu;
 import com.amotion.amotion_2017.data.Subject;
 
@@ -23,14 +25,16 @@ public class MainActivity extends AppCompatActivity {
         Map<String, String> loginCookie=null;
         ArrayList<Subject> subjects =null;
         Map<String, ArrayList<SubMenu>> subMenus=null;
-
+        AsyncData asyncData;
 
         map.put("id", "pw");
         try {
             loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
             SubjectAsyncTask subjectAsyncTask = new SubjectAsyncTask(getApplicationContext());
             subjects = subjectAsyncTask.execute(loginCookie).get();
-            //subMenus = new SubjectTableAsyncTask(getApplicationContext()).execute(subjects).get();
+
+            asyncData = new AsyncData(loginCookie, subjects);
+            subjects = new SubjectTableAsyncTask(getApplicationContext()).execute(asyncData).get();
 
             System.out.println(subjects);
 

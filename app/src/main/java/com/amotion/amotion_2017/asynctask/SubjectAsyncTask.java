@@ -12,8 +12,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -26,7 +24,7 @@ public class SubjectAsyncTask extends AsyncTask<Map<String, String>,Void, ArrayL
     @SuppressLint("StaticFieldLeak")
     private static Context context;
 
-    SubjectAsyncTask(Context context) {
+    public SubjectAsyncTask(Context context) {
         SubjectAsyncTask.context = context;
     }
 
