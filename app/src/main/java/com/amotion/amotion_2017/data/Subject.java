@@ -1,4 +1,6 @@
-package com.amotion.amotion_2017;
+package com.amotion.amotion_2017.data;
+
+import java.util.ArrayList;
 
 /**
  * Created by JSH on 2017-11-26.
@@ -11,6 +13,16 @@ public class Subject {
     private String term_cd;
     private String subject_cd;
     private String user_no;
+    private ArrayList<SubMenu> subMenus;
+    private String subjectName;
+
+    public ArrayList<SubMenu> getSubMenus() {
+        return subMenus;
+    }
+
+    public void setSubMenus(ArrayList<SubMenu> subMenus) {
+        this.subMenus = subMenus;
+    }
 
     public String getSubjectName() {
         return subjectName;
@@ -19,8 +31,6 @@ public class Subject {
     public void setSubjectName(String subjectName) {
         this.subjectName = subjectName;
     }
-
-    private String subjectName;
 
     public String getMnid() {
         return mnid;

@@ -1,24 +1,20 @@
 package com.amotion.amotion_2017;
 
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.content.SharedPreferences;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.reflect.TypeToken;
+import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
+import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
+import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
+import com.amotion.amotion_2017.asynctask.SubjectTableAsyncTask;
+import com.amotion.amotion_2017.data.AsyncData;
+import com.amotion.amotion_2017.data.Schedule;
+import com.amotion.amotion_2017.data.SubMenu;
+import com.amotion.amotion_2017.data.Subject;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,8 +23,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SubjectAsyncTask subjectAsyncTask = new SubjectAsyncTask(getApplicationContext());
-        subjectAsyncTask.execute();
+        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> loginCookie=null;
+        ArrayList<Subject> subjects =null;
+        AsyncData asyncData;
+        ArrayList<Schedule> scheduleArrayList= new ArrayList<>();
+        map.put("id", "pw");
+        try {
+            loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
+            subjects = new SubjectAsyncTask().execute(loginCookie).get();
+
+            asyncData = new AsyncData(loginCookie, subjects);
+
+            subjects = new SubjectTableAsyncTask().execute(asyncData).get();
+
+            //System.out.println(subjects);
+            //TODO 스케쥴 들임
+            scheduleArrayList = new ScheduleAsyncTask().execute(asyncData).get();
+            System.out.println(scheduleArrayList);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
 
         // 병렬 처리시
@@ -41,31 +58,26 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         */
-
+/*
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        */
         //읽을때
+        /*
         SharedPreferences test = getSharedPreferences("subjects", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = test.getString("Subjects", "");
         Type listType = new TypeToken<ArrayList<Subject>>() {}.getType();
         ArrayList<Subject> subjects = gson.fromJson(json, listType);
         Map<String, ArrayList<SubMenu>> subMenus=null;
-
-        try {
-          subMenus = new SubjectTableAsyncTask(getApplicationContext()).execute(subjects).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        */
 
 
-        System.out.println(subjects);
-        System.out.println(subMenus.toString());
+        //System.out.println(subjects);
+        //.System.out.println(subMenus.toString());
     }
 
 }
