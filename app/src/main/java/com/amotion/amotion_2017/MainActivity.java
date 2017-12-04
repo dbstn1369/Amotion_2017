@@ -27,6 +27,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> loginCookie;
+        map.put("id", "pw");
+        try {
+            loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         SubjectAsyncTask subjectAsyncTask = new SubjectAsyncTask(getApplicationContext());
         subjectAsyncTask.execute();
 
