@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
             asyncData = new AsyncData(loginCookie, subjects);
             subjects = new SubjectTableAsyncTask(getApplicationContext()).execute(asyncData).get();
 
+
+
             System.out.println(subjects);
 
 
@@ -55,12 +57,13 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         */
-
+/*
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        */
         //읽을때
         /*
         SharedPreferences test = getSharedPreferences("subjects", MODE_PRIVATE);
