@@ -28,15 +28,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Map<String, String> map = new HashMap<String, String>();
-        Map<String, String> loginCookie;
+        Map<String, String> loginCookie=null;
+        ArrayList<Subject> subjects =null;
+        Map<String, ArrayList<SubMenu>> subMenus=null;
+
+
         map.put("id", "pw");
         try {
             loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
+            SubjectAsyncTask subjectAsyncTask = new SubjectAsyncTask(getApplicationContext());
+            subjects = subjectAsyncTask.execute(loginCookie).get();
+            //subMenus = new SubjectTableAsyncTask(getApplicationContext()).execute(subjects).get();
+
+            System.out.println(subjects);
+
+
         }catch (Exception e){
             e.printStackTrace();
         }
-        SubjectAsyncTask subjectAsyncTask = new SubjectAsyncTask(getApplicationContext());
-        subjectAsyncTask.execute();
+
 
 
         // 병렬 처리시
@@ -56,24 +66,18 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         //읽을때
+        /*
         SharedPreferences test = getSharedPreferences("subjects", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = test.getString("Subjects", "");
         Type listType = new TypeToken<ArrayList<Subject>>() {}.getType();
         ArrayList<Subject> subjects = gson.fromJson(json, listType);
         Map<String, ArrayList<SubMenu>> subMenus=null;
-
-        try {
-          subMenus = new SubjectTableAsyncTask(getApplicationContext()).execute(subjects).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        */
 
 
         System.out.println(subjects);
-        System.out.println(subMenus.toString());
+        //.System.out.println(subMenus.toString());
     }
 
 }

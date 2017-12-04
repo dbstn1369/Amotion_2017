@@ -29,7 +29,7 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by JSH on 2017-11-26.asd
  */
 //나의 강의실 긁어오기
-public class SubjectAsyncTask extends AsyncTask<Void,Void, ArrayList<Subject>> {
+public class SubjectAsyncTask extends AsyncTask<Map<String, String>,Void, ArrayList<Subject>> {
 
     @SuppressLint("StaticFieldLeak")
     private static Context context;
@@ -39,41 +39,12 @@ public class SubjectAsyncTask extends AsyncTask<Void,Void, ArrayList<Subject>> {
     }
 
     @Override
-    protected ArrayList<Subject> doInBackground(Void... voids) {
+    protected ArrayList<Subject> doInBackground(Map<String, String>[] maps) {
 
         ArrayList<Subject> subjects = new ArrayList<>();
-
+        Map<String, String> loginTryCookie = maps[0];
         try {
 
-            JSONObject idpw = new JSONObject(loadJSONFromAsset());
-
-            //TODO 아이디 패스워드 입력
-            Map<String, String> logindata = new HashMap<>();//로그인하기 위한 data 값들.
-            logindata.put("user_id", idpw.getString("id"));
-            logindata.put("user_password", idpw.getString("pw"));
-            logindata.put("group_cd", "UN");
-            logindata.put("sub_group_cd", "");
-            //logindata.put("sso_url", "http://portal.cnu.ac.kr/enview/portal/");
-            //logindata.put("schedule_selected_date", new Date().toString());
-            //logindata.put("fnc_return", "");
-
-            // 로그인
-            Connection.Response loginPageResponse = Jsoup.connect("http://e-learn.cnu.ac.kr/login/doLogin.dunet")//세션유지를 위한 사이트 연결
-                    .timeout(60000)//header 값들은 구글 크롬개발자로 구하면 됩니다.
-                    .header("Origin", "http://e-learn.cnu.ac.kr")
-                    .header("Referer", "http://e-learn.cnu.ac.kr/login/doLogin.dunet")
-                    .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
-                    .header("Content-Type", "application/x-www-form-urlencoded")
-                    .header("Accept-Encoding", "gzip, deflate, br")
-                    .header("Accept-Language", "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4")
-                    .data(logindata)
-                    .method(Connection.Method.POST)
-                    .ignoreContentType(true)
-                    .execute();
-
-            Map<String, String> loginTryCookie1 = loginPageResponse.cookies();//로그인을 하여 얻은 쿠키 아래에서 사용함.
-
-            Log.d("SubjectAsync", loginTryCookie1.toString());
 
             String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36";
 
@@ -86,16 +57,12 @@ public class SubjectAsyncTask extends AsyncTask<Void,Void, ArrayList<Subject>> {
                     .header("Content-Type", "application/x-www-form-urlencoded")
                     .header("Accept-Encoding", "gzip, deflate")
                     .header("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7")
-                    .cookies(loginTryCookie1)
+                    .cookies(loginTryCookie)
                     .method(Connection.Method.POST)
                     .ignoreContentType(true)
                     .execute();
 
-
             Document subjectPageDocument = subjectResponse.parse();
-
-
-
 
             Elements subjectElements = subjectPageDocument.select("a.classin2");
             for (Element e: subjectElements )
@@ -116,39 +83,19 @@ public class SubjectAsyncTask extends AsyncTask<Void,Void, ArrayList<Subject>> {
             //Log.d("SubjectAsync", subjects.toString());
 
             // 저장
+            /*
             SharedPreferences test = context.getSharedPreferences("subjects", MODE_PRIVATE);
             SharedPreferences.Editor editor = test.edit();
             Gson gson = new Gson();
             String json = gson.toJson(subjects);
             editor.putString("Subjects", json);
             editor.commit();
-
+            */
 
         } catch (Exception ex) {
             Log.e("SubjectAsync", "Error");
             ex.printStackTrace();
         }
-
-        return null;
+        return subjects;
     }
-
-    private String loadJSONFromAsset() {
-        String json = null;
-        try {
-
-            InputStream is = context.getAssets().open("idpw.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-
-    }
-
 }
