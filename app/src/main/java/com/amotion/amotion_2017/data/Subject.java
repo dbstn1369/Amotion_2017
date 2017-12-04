@@ -1,4 +1,4 @@
-package com.amotion.amotion_2017;
+package com.amotion.amotion_2017.data;
 
 /**
  * Created by JSH on 2017-11-26.

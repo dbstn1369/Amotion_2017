@@ -1,14 +1,12 @@
-package com.amotion.amotion_2017;
+package com.amotion.amotion_2017.asynctask;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.google.gson.Gson;
+import com.amotion.amotion_2017.data.Subject;
 
-import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,14 +14,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by JSH on 2017-11-26.asd

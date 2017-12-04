@@ -1,4 +1,4 @@
-package com.amotion.amotion_2017;
+package com.amotion.amotion_2017.asynctask;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

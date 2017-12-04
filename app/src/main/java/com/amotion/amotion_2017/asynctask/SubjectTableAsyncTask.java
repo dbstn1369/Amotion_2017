@@ -1,4 +1,4 @@
-package com.amotion.amotion_2017;
+package com.amotion.amotion_2017.asynctask;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.amotion.amotion_2017.data.SubMenu;
+import com.amotion.amotion_2017.data.Subject;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
