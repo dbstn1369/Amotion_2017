@@ -33,12 +33,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class SubjectTableAsyncTask extends AsyncTask<AsyncData, Void, ArrayList<Subject>> {
 
-    @SuppressLint("StaticFieldLeak")
-    private static Context context;
-
-    public SubjectTableAsyncTask(Context context) {
-        SubjectTableAsyncTask.context = context;
-    }
 
     @Override
     protected ArrayList<Subject> doInBackground(AsyncData... asyncData) {
@@ -102,7 +96,7 @@ public class SubjectTableAsyncTask extends AsyncTask<AsyncData, Void, ArrayList<
 
 
             for (int i = 0; i < subjects.size(); i++) {
-                System.out.println(subjects.get(i).getSubMenus());
+                //System.out.println(subjects.get(i).getSubMenus());
             }
             //Log.d("SubjectAsync", subjects.toString());
 

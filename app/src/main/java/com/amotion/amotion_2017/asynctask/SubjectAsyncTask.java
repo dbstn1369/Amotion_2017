@@ -21,13 +21,6 @@ import java.util.Map;
 //나의 강의실 긁어오기
 public class SubjectAsyncTask extends AsyncTask<Map<String, String>,Void, ArrayList<Subject>> {
 
-    @SuppressLint("StaticFieldLeak")
-    private static Context context;
-
-    public SubjectAsyncTask(Context context) {
-        SubjectAsyncTask.context = context;
-    }
-
     @Override
     protected ArrayList<Subject> doInBackground(Map<String, String>[] maps) {
 

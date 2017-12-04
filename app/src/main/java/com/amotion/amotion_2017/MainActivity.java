@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
+import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectTableAsyncTask;
 import com.amotion.amotion_2017.data.AsyncData;
@@ -24,21 +25,20 @@ public class MainActivity extends AppCompatActivity {
         Map<String, String> map = new HashMap<String, String>();
         Map<String, String> loginCookie=null;
         ArrayList<Subject> subjects =null;
-        Map<String, ArrayList<SubMenu>> subMenus=null;
         AsyncData asyncData;
 
         map.put("id", "pw");
         try {
             loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
-            SubjectAsyncTask subjectAsyncTask = new SubjectAsyncTask(getApplicationContext());
-            subjects = subjectAsyncTask.execute(loginCookie).get();
+            subjects = new SubjectAsyncTask().execute(loginCookie).get();
 
             asyncData = new AsyncData(loginCookie, subjects);
-            subjects = new SubjectTableAsyncTask(getApplicationContext()).execute(asyncData).get();
 
-
+            subjects = new SubjectTableAsyncTask().execute(asyncData).get();
 
             System.out.println(subjects);
+
+            new ScheduleAsyncTask().execute(asyncData);
 
 
         }catch (Exception e){
