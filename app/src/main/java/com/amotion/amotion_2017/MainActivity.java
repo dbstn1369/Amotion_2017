@@ -8,6 +8,7 @@ import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectTableAsyncTask;
 import com.amotion.amotion_2017.data.AsyncData;
+import com.amotion.amotion_2017.data.Schedule;
 import com.amotion.amotion_2017.data.SubMenu;
 import com.amotion.amotion_2017.data.Subject;
 
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         Map<String, String> loginCookie=null;
         ArrayList<Subject> subjects =null;
         AsyncData asyncData;
-
+        ArrayList<Schedule> scheduleArrayList= new ArrayList<>();
         map.put("id", "pw");
         try {
             loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
@@ -36,10 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
             subjects = new SubjectTableAsyncTask().execute(asyncData).get();
 
-            System.out.println(subjects);
-
-            new ScheduleAsyncTask().execute(asyncData);
-
+            //System.out.println(subjects);
+            //TODO 스케쥴 들임
+            scheduleArrayList = new ScheduleAsyncTask().execute(asyncData).get();
+            System.out.println(scheduleArrayList);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         */
 
 
-        System.out.println(subjects);
+        //System.out.println(subjects);
         //.System.out.println(subMenus.toString());
     }
 

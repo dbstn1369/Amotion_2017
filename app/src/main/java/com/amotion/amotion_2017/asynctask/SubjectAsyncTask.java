@@ -28,7 +28,6 @@ public class SubjectAsyncTask extends AsyncTask<Map<String, String>,Void, ArrayL
         Map<String, String> loginTryCookie = maps[0];
         try {
 
-
             String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36";
 
             Connection.Response subjectResponse = Jsoup.connect("http://e-learn.cnu.ac.kr/lms/myLecture/doListView.dunet")
@@ -60,7 +59,7 @@ public class SubjectAsyncTask extends AsyncTask<Map<String, String>,Void, ArrayL
                 temp.setSubjectName(e.text());
                 subjects.add(temp);
 
-                System.out.println( temp.toString());
+                //System.out.println( temp.toString());
             }
 
             //Log.d("SubjectAsync", subjects.toString());
