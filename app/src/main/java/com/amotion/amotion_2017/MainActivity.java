@@ -59,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
         Map<String, String> loginCookie = null;
         ArrayList<Subject> subjects = null;
         AsyncData asyncData;
-        map.put("id", "pw");
+        map.put("id", "putid");
+        map.put("pw", "putpw");
 
         try {
             loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
