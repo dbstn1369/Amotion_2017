@@ -30,6 +30,9 @@ import com.amotion.amotion_2017.data.Schedule;
 import com.amotion.amotion_2017.data.SingerItem;
 import com.amotion.amotion_2017.data.SingerItemView;
 import com.amotion.amotion_2017.data.Subject;
+import com.amotion.amotion_2017.fragment.FragmentCnu;
+import com.amotion.amotion_2017.fragment.FragmentHome;
+import com.amotion.amotion_2017.fragment.FragmentSubject;
 
 import org.w3c.dom.Text;
 
@@ -42,12 +45,10 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     static ArrayList<Schedule> scheduleArrayList = new ArrayList<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cnup_main);
-
 
         //slide관련
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -121,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-    }
+   }
 
     @Override
     protected void onResume() {
@@ -153,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
     //슬라이드 관련 메뉴이름 설정 및 내부 fragment관리
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
-        FragmentHome fragmentHome = new FragmentHome();
+        FragmentHome fragmentHome=new FragmentHome();
         FragmentCnu fragmentCnu = new FragmentCnu();
         FragmentSubject fragmentSubject = new FragmentSubject();
 
@@ -166,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new FragmentHome();
+                    return fragmentHome;
                 case 1:
                     return fragmentSubject;
                 case 2:
@@ -197,106 +198,45 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //추후 클래스로 분리할것
-    public static class FragmentHome extends Fragment {
-        private View rootView;
-        private TextView text;
 
-        public FragmentHome() {
-        }
+    class SingerAdapter extends BaseAdapter {
+        ArrayList<SingerItem> items = new ArrayList<SingerItem>();
+        Context context ;
 
-        @Nullable
-        //내부화면 관리
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            rootView = inflater.inflate(R.layout.fragment_home, null);
-            text = rootView.findViewById(R.id.home_text_main);
-            text.setText(scheduleArrayList.toString());
-            return rootView;
-        }
-
-        public void setText(String input) {
-            TextView textd = rootView.findViewById(R.id.home_text_main);
-            text.setText(input);
-        }
-    }
-
-    public static class FragmentSubject extends Fragment {
-        public FragmentSubject() {
-        }
-
-        @Nullable
-        //내부화면 관리
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_subject, null);
-        }
-    }
-
-    public class FragmentCnu extends Fragment {
-        ListView listView;
-        SingerAdapter adapter;
-        Context context;
-
-
-        public FragmentCnu(Context context) {
+        public SingerAdapter(Context context) {
             this.context = context;
         }
 
-        public FragmentCnu() {
-        }
-
-        @Nullable
-        //내부화면 관리
         @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-            listView = (ListView) findViewById(R.id.listView);
-            adapter = new SingerAdapter(getApplicationContext());
-            adapter.addItem(new SingerItem(1, "공지사항", "0000~0000"));
-            listView.setAdapter(adapter);
-            return inflater.inflate(R.layout.fragment_cnu, null);
-
+        public int getCount() {
+            return items.size();
         }
 
-        class SingerAdapter extends BaseAdapter {
-            ArrayList<SingerItem> items = new ArrayList<SingerItem>();
-            Context context ;
-
-            public SingerAdapter(Context context) {
-                this.context = context;
-            }
-
-            @Override
-            public int getCount() {
-                return items.size();
-            }
-
-            public void addItem(SingerItem item) {
-                items.add(item);
-            }
-
-            @Override
-            public Object getItem(int position) {
-                return items.get(position);
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return position;
-            }
-
-            @Override
-            public View getView(int position, View converView, ViewGroup viewGroup) {
-                SingerItemView view = new SingerItemView(context);
-
-                SingerItem item = items.get(position);
-                view.setNumber(item.getNumber());
-                view.setContext(item.getContext());
-                view.setDay(item.getDay());
-                return view;
-            }
+        public void addItem(SingerItem item) {
+            items.add(item);
         }
 
+        @Override
+        public Object getItem(int position) {
+            return items.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View converView, ViewGroup viewGroup) {
+            SingerItemView view = new SingerItemView(context);
+
+            SingerItem item = items.get(position);
+            view.setNumber(item.getNumber());
+            view.setContext(item.getContext());
+            view.setDay(item.getDay());
+            return view;
+        }
     }
+
 
 }
