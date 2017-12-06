@@ -1,5 +1,6 @@
 package com.amotion.amotion_2017;
 
+import android.content.Context;
 import android.icu.text.SymbolTable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -15,6 +16,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
@@ -23,6 +27,8 @@ import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectTableAsyncTask;
 import com.amotion.amotion_2017.data.AsyncData;
 import com.amotion.amotion_2017.data.Schedule;
+import com.amotion.amotion_2017.data.SingerItem;
+import com.amotion.amotion_2017.data.SingerItemView;
 import com.amotion.amotion_2017.data.Subject;
 
 import org.w3c.dom.Text;
@@ -36,10 +42,12 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     static ArrayList<Schedule> scheduleArrayList = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cnup_main);
+
 
         //slide관련
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -113,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-   }
+    }
 
     @Override
     protected void onResume() {
@@ -189,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //추후 클래스로 분리할것
-    public static class FragmentHome extends Fragment{
+    public static class FragmentHome extends Fragment {
         private View rootView;
         private TextView text;
 
@@ -200,14 +208,14 @@ public class MainActivity extends AppCompatActivity {
         //내부화면 관리
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            rootView= inflater.inflate(R.layout.fragment_home, null);
-            text=rootView.findViewById(R.id.home_text_main);
+            rootView = inflater.inflate(R.layout.fragment_home, null);
+            text = rootView.findViewById(R.id.home_text_main);
             text.setText(scheduleArrayList.toString());
             return rootView;
         }
 
         public void setText(String input) {
-            TextView textd=rootView.findViewById(R.id.home_text_main);
+            TextView textd = rootView.findViewById(R.id.home_text_main);
             text.setText(input);
         }
     }
@@ -224,7 +232,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static class FragmentCnu extends Fragment {
+    public class FragmentCnu extends Fragment {
+        ListView listView;
+        SingerAdapter adapter;
+        Context context;
+
+
+        public FragmentCnu(Context context) {
+            this.context = context;
+        }
+
         public FragmentCnu() {
         }
 
@@ -232,9 +249,54 @@ public class MainActivity extends AppCompatActivity {
         //내부화면 관리
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+            listView = (ListView) findViewById(R.id.listView);
+            adapter = new SingerAdapter(getApplicationContext());
+            adapter.addItem(new SingerItem(1, "공지사항", "0000~0000"));
+            listView.setAdapter(adapter);
             return inflater.inflate(R.layout.fragment_cnu, null);
 
         }
+
+        class SingerAdapter extends BaseAdapter {
+            ArrayList<SingerItem> items = new ArrayList<SingerItem>();
+            Context context ;
+
+            public SingerAdapter(Context context) {
+                this.context = context;
+            }
+
+            @Override
+            public int getCount() {
+                return items.size();
+            }
+
+            public void addItem(SingerItem item) {
+                items.add(item);
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return items.get(position);
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return position;
+            }
+
+            @Override
+            public View getView(int position, View converView, ViewGroup viewGroup) {
+                SingerItemView view = new SingerItemView(context);
+
+                SingerItem item = items.get(position);
+                view.setNumber(item.getNumber());
+                view.setContext(item.getContext());
+                view.setDay(item.getDay());
+                return view;
+            }
+        }
+
     }
 
 }
