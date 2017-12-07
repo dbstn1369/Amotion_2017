@@ -26,6 +26,7 @@ import com.amotion.amotion_2017.data.Schedule;
 import com.amotion.amotion_2017.data.Subject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
             scheduleArrayList = new ScheduleAsyncTask().execute(asyncData).get();
 
             subjects = new TableAsyncTask().execute(asyncData).get();
+
+            for (Subject s : subjects){
+                Collections.sort(s.getTableDataArrayList());
+            }
 
             System.out.println(subjects);
         } catch (Exception e) {

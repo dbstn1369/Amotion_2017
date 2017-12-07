@@ -1,10 +1,12 @@
 package com.amotion.amotion_2017.data;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by JSH on 2017-12-07.
  */
 
-public class TableData
+public class TableData implements Comparable<TableData>
 {
     private String title;
     private String boardName;
@@ -69,5 +71,12 @@ public class TableData
                 ", id='" + id + '\'' +
                 ", subjectName='" + subjectName + '\'' +
                 '}';
+    }
+
+
+    @Override
+    public int compareTo(@NonNull TableData o)
+    {
+        return o.getId().compareTo(this.id);
     }
 }
