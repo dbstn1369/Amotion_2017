@@ -31,7 +31,7 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by JSH on 2017-11-27.asd
  */
 
-public class SubjectTableAsyncTask extends AsyncTask<AsyncData, Void, ArrayList<Subject>> {
+public class SubjectSubmenuAsyncTask extends AsyncTask<AsyncData, Void, ArrayList<Subject>> {
 
 
     @Override
@@ -71,7 +71,7 @@ public class SubjectTableAsyncTask extends AsyncTask<AsyncData, Void, ArrayList<
 
                 Document subMenuDocument = subjectResponse.parse();
 
-                //Log.d("SubjectTableAsyncTask", subMenuDocument.toString());
+                //Log.d("SubjectSubmenuAsyncTask", subMenuDocument.toString());
 
                 ArrayList<SubMenu> subMenus = new ArrayList<>();
 
@@ -83,7 +83,7 @@ public class SubjectTableAsyncTask extends AsyncTask<AsyncData, Void, ArrayList<
                     Element boardno = e.select("input[name=board_no]").first();
 
                     if (boardno == null) {
-                        temp.setBoard_no("");
+                        continue;
                     } else {
                         temp.setBoard_no(boardno.attr("value"));
                     }
