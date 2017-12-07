@@ -38,7 +38,6 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    static ArrayList<Schedule> scheduleArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,41 +57,6 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         //slide끝
-
-        Map<String, String> map = new HashMap<String, String>();
-        Map<String, String> loginCookie = null;
-        ArrayList<Subject> subjects = null;
-        AsyncData asyncData;
-        map.put("id", "putid");
-        map.put("pw", "putpw");
-
-        try {
-            loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
-            subjects = new SubjectAsyncTask().execute(loginCookie).get();
-
-            asyncData = new AsyncData(loginCookie, subjects);
-
-            subjects = new SubjectSubmenuAsyncTask().execute(asyncData).get();
-
-            //System.out.println(subjects);
-            //TODO 스케쥴 들임
-            scheduleArrayList = new ScheduleAsyncTask().execute(asyncData).get();
-
-            for (int subjectIndex = 0 ;subjectIndex<subjects.size();subjectIndex++){
-
-                new TableAsyncTask().execute(new TableAsyncData(subjects.get(subjectIndex),loginCookie)).get();
-            }
-
-
-            for (Subject s : subjects){
-                Collections.sort(s.getTableDataArrayList());
-            }
-
-            System.out.println(subjects);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
 
         // 병렬 처리시
         /*
