@@ -24,6 +24,7 @@ import com.amotion.amotion_2017.asynctask.TableAsyncTask;
 import com.amotion.amotion_2017.data.AsyncData;
 import com.amotion.amotion_2017.data.Schedule;
 import com.amotion.amotion_2017.data.Subject;
+import com.amotion.amotion_2017.data.TableAsyncData;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -73,7 +74,11 @@ public class MainActivity extends AppCompatActivity {
             //TODO 스케쥴 들임
             scheduleArrayList = new ScheduleAsyncTask().execute(asyncData).get();
 
-            subjects = new TableAsyncTask().execute(asyncData).get();
+            for (int subjectIndex = 0 ;subjectIndex<subjects.size();subjectIndex++){
+
+                new TableAsyncTask().execute(new TableAsyncData(subjects.get(subjectIndex),loginCookie)).get();
+            }
+
 
             for (Subject s : subjects){
                 Collections.sort(s.getTableDataArrayList());
