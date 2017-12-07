@@ -24,8 +24,12 @@ import com.amotion.amotion_2017.asynctask.TableAsyncTask;
 import com.amotion.amotion_2017.data.AsyncData;
 import com.amotion.amotion_2017.data.Schedule;
 import com.amotion.amotion_2017.data.Subject;
-import com.amotion.amotion_2017.data.TableAsyncData;
 
+import com.amotion.amotion_2017.data.TableAsyncData;
+import com.amotion.amotion_2017.fragment.FragmentCnu;
+import com.amotion.amotion_2017.fragment.FragmentHome;
+import com.amotion.amotion_2017.fragment.FragmentSubject;
+import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -157,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
     //슬라이드 관련 메뉴이름 설정 및 내부 fragment관리
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
-        FragmentHome fragmentHome = new FragmentHome();
+        FragmentHome fragmentHome=new FragmentHome();
         FragmentCnu fragmentCnu = new FragmentCnu();
         FragmentSubject fragmentSubject = new FragmentSubject();
 
@@ -170,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new FragmentHome();
+                    return fragmentHome;
                 case 1:
                     return fragmentSubject;
                 case 2:
@@ -201,52 +205,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //추후 클래스로 분리할것
-    public static class FragmentHome extends Fragment{
-        private View rootView;
-        private TextView text;
 
-        public FragmentHome() {
-        }
 
-        @Nullable
-        //내부화면 관리
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            rootView= inflater.inflate(R.layout.fragment_home, null);
-            text=rootView.findViewById(R.id.home_text_main);
-            text.setText(scheduleArrayList.toString());
-            return rootView;
-        }
-
-        public void setText(String input) {
-            TextView textd=rootView.findViewById(R.id.home_text_main);
-            text.setText(input);
-        }
-    }
-
-    public static class FragmentSubject extends Fragment {
-        public FragmentSubject() {
-        }
-
-        @Nullable
-        //내부화면 관리
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_subject, null);
-        }
-    }
-
-    public static class FragmentCnu extends Fragment {
-        public FragmentCnu() {
-        }
-
-        @Nullable
-        //내부화면 관리
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_cnu, null);
-
-        }
-    }
 
 }
