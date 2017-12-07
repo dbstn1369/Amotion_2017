@@ -1,5 +1,6 @@
 package com.amotion.amotion_2017;
 
+import android.icu.text.SymbolTable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -38,6 +39,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    static ArrayList<Schedule> scheduleArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,29 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         //slide끝
+
+        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> loginCookie = null;
+        ArrayList<Subject> subjects = null;
+        AsyncData asyncData;
+        map.put("id", "pw");
+
+        try {
+            loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
+            subjects = new SubjectAsyncTask().execute(loginCookie).get();
+
+            asyncData = new AsyncData(loginCookie, subjects);
+
+            subjects = new SubjectTableAsyncTask().execute(asyncData).get();
+
+            //System.out.println(subjects);
+            //TODO 스케쥴 들임
+            scheduleArrayList = new ScheduleAsyncTask().execute(asyncData).get();
+            System.out.println(scheduleArrayList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         // 병렬 처리시
         /*
