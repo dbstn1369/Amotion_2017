@@ -58,6 +58,25 @@ public class TableAsyncTask extends AsyncTask<TableAsyncData, String, ArrayList<
 
                 Document document = tableResponse.parse();
 
+                Map<String, String> tableNumData = new HashMap<String, String>();
+
+                tableNumData.put("page", String.valueOf(1));
+                tableNumData.put("rows", String.valueOf(10));
+                tableNumData.put("sord", "asc");
+                tableNumData.put("course_id", subject.getCourse_id());
+                tableNumData.put("class_no", subject.getClass_no());
+                tableNumData.put("menu_type", "class");
+                tableNumData.put("mode", "");
+                tableNumData.put("q_mnid", subject.getSubMenus().get(subIndex).getMnid());
+                tableNumData.put("boarditem_no", "");
+                tableNumData.put("board_no", subject.getSubMenus().get(subIndex).getBoard_no());
+                tableNumData.put("boarditem_depth", "");
+                tableNumData.put("mode_ext", "");
+                tableNumData.put("use_file_size", "0");
+                tableNumData.put("category_id", "");
+                tableNumData.put("q_where_type", "BOARDITEM_TITLE");
+                tableNumData.put("q_key", "");
+
                 int boardNum = document.select("div.pagination").get(0).childNodeSize();
                 if (boardNum == 1) {
                     boardNum = 1;
@@ -79,35 +98,19 @@ public class TableAsyncTask extends AsyncTask<TableAsyncData, String, ArrayList<
                         Element tr = tablerowElements.get(tablerowindex);
                         String id = tr.select("a[name=btn_board_view]").get(0).attr("id");
                         String title = tr.select("a[name=btn_board_view]").first().ownText();
-
+                        tableNumData.put("boarditem_no", id);
                         tableDataArrayList.add(new TableData(title,
                                 subject.getSubMenus().get(subIndex).getMenuName(),
                                 id,
-                                subjectTitle
+                                subjectTitle,
+                                tableNumData
                         ));
                     }
 
                 } else {
                     for (int i = 1; i < boardNum; i++) {
 
-                        Map<String, String> tableNoData = new HashMap<String, String>();
-
-                        tableNoData.put("page", String.valueOf(i));
-                        tableNoData.put("rows", String.valueOf(10));
-                        tableNoData.put("sord", "asc");
-                        tableNoData.put("course_id", subject.getCourse_id());
-                        tableNoData.put("class_no", subject.getClass_no());
-                        tableNoData.put("menu_type", "class");
-                        tableNoData.put("mode", "");
-                        tableNoData.put("q_mnid", subject.getSubMenus().get(subIndex).getMnid());
-                        tableNoData.put("boarditem_no", "");
-                        tableNoData.put("board_no", subject.getSubMenus().get(subIndex).getBoard_no());
-                        tableNoData.put("boarditem_depth", "");
-                        tableNoData.put("mode_ext", "");
-                        tableNoData.put("use_file_size", "0");
-                        tableNoData.put("category_id", "");
-                        tableNoData.put("q_where_type", "BOARDITEM_TITLE");
-                        tableNoData.put("q_key", "");
+                        tableNumData.put("page", String.valueOf(i));
 
                         Connection.Response tableNoResponse = Jsoup.connect("http://e-learn.cnu.ac.kr/lms/class/boardItem/doListView.dunet")
                                 .userAgent(userAgent)
@@ -118,7 +121,7 @@ public class TableAsyncTask extends AsyncTask<TableAsyncData, String, ArrayList<
                                 .header("Content-Type", "application/x-www-form-urlencoded")
                                 .header("Accept-Encoding", "gzip, deflate")
                                 .header("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7")
-                                .data(tableNoData)
+                                .data(tableNumData)
                                 .cookies(loginTryCookie)
                                 .method(Connection.Method.POST)
                                 .ignoreContentType(true)
@@ -143,10 +146,13 @@ public class TableAsyncTask extends AsyncTask<TableAsyncData, String, ArrayList<
                             String id = tr.select("a[name=btn_board_view]").get(0).attr("id");
                             String title = tr.select("a[name=btn_board_view]").first().ownText();
 
+                            Map<String, String> temp = new HashMap<String, String>(tableNumData);
+                            temp.put("boarditem_no", id);
                             tableDataArrayList.add(new TableData(title,
                                     subject.getSubMenus().get(subIndex).getMenuName(),
                                     id,
-                                    subjectTitle
+                                    subjectTitle,
+                                    tableNumData
                             ));
                         }
                     }

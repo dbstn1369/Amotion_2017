@@ -2,6 +2,8 @@ package com.amotion.amotion_2017.data;
 
 import android.support.annotation.NonNull;
 
+import java.util.Map;
+
 /**
  * Created by JSH on 2017-12-07.
  */
@@ -12,14 +14,17 @@ public class TableData implements Comparable<TableData>
     private String boardName;
     private String id;
     private String subjectName;
+    private Map<String, String> data;
 
-    public TableData(String title, String boardName, String id, String subjectName)
+    public TableData(String title, String boardName, String id, String subjectName, Map<String, String> data)
     {
         this.title = title;
         this.boardName = boardName;
         this.id = id;
         this.subjectName = subjectName;
+        this.data = data;
     }
+
 
     public String getTitle()
     {
@@ -60,6 +65,16 @@ public class TableData implements Comparable<TableData>
     public void setSubjectName(String subjectName)
     {
         this.subjectName = subjectName;
+    }
+
+    public Map<String, String> getData()
+    {
+        return data;
+    }
+
+    public void setData(Map<String, String> data)
+    {
+        this.data = data;
     }
 
     @Override
