@@ -1,5 +1,6 @@
 package com.amotion.amotion_2017.fragment;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,14 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.amotion.amotion_2017.R;
 import com.amotion.amotion_2017.data.SingerItem;
 import com.amotion.amotion_2017.data.SingerItemView;
-
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by YunDongHyeon on 2017-12-05.
@@ -23,24 +25,39 @@ import java.util.ArrayList;
 
 
 public class FragmentSubject extends Fragment {
-
+    Button dateButton;
     ListView listView;
     SingerAdapter adapter;
     View view;
 
 
-
     public FragmentSubject() {
     }
+
 
     @Nullable
     //내부화면 관리
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+
         view = inflater.inflate(R.layout.fragment_subject, null);
         listView = (ListView) view.findViewById(R.id.listView);
+        dateButton = (Button) view.findViewById(R.id.date);
         Log.d("listView", "listView");
+
+
+    dateButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), dateSetListener, year, month, day);
+                datePickerDialog.show();
+            }
+
+        });
 
 
         adapter = new SingerAdapter();
@@ -49,7 +66,7 @@ public class FragmentSubject extends Fragment {
         adapter.addItem(new SingerItem("3", "string", "string"));
         adapter.addItem(new SingerItem("4", "string", "string"));
         Log.d("listView", "listView2");
-       listView.setAdapter(adapter);
+        listView.setAdapter(adapter);
 
 
         return view;
@@ -88,5 +105,12 @@ public class FragmentSubject extends Fragment {
             return view;
         }
     }
+
+    public DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            dateButton.setText(year + "년 " + (monthOfYear + 1) + "월 " + dayOfMonth + "일");
+        }
+    };
 
 }
