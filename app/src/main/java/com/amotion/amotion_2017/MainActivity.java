@@ -1,6 +1,5 @@
 package com.amotion.amotion_2017;
 
-import android.icu.text.SymbolTable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -20,12 +19,11 @@ import android.widget.TextView;
 import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
 import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
-import com.amotion.amotion_2017.asynctask.SubjectTableAsyncTask;
+import com.amotion.amotion_2017.asynctask.SubjectSubmenuAsyncTask;
+import com.amotion.amotion_2017.asynctask.TableAsyncTask;
 import com.amotion.amotion_2017.data.AsyncData;
 import com.amotion.amotion_2017.data.Schedule;
 import com.amotion.amotion_2017.data.Subject;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,12 +66,15 @@ public class MainActivity extends AppCompatActivity {
 
             asyncData = new AsyncData(loginCookie, subjects);
 
-            subjects = new SubjectTableAsyncTask().execute(asyncData).get();
+            subjects = new SubjectSubmenuAsyncTask().execute(asyncData).get();
 
             //System.out.println(subjects);
             //TODO 스케쥴 들임
             scheduleArrayList = new ScheduleAsyncTask().execute(asyncData).get();
-            System.out.println(scheduleArrayList);
+
+            subjects = new TableAsyncTask().execute(asyncData).get();
+
+            System.out.println(subjects);
         } catch (Exception e) {
             e.printStackTrace();
         }
