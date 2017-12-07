@@ -198,45 +198,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //추후 클래스로 분리할것
-
-    class SingerAdapter extends BaseAdapter {
-        ArrayList<SingerItem> items = new ArrayList<SingerItem>();
-        Context context ;
-
-        public SingerAdapter(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        public int getCount() {
-            return items.size();
-        }
-
-        public void addItem(SingerItem item) {
-            items.add(item);
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return items.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View converView, ViewGroup viewGroup) {
-            SingerItemView view = new SingerItemView(context);
-
-            SingerItem item = items.get(position);
-            view.setNumber(item.getNumber());
-            view.setContext(item.getContext());
-            view.setDay(item.getDay());
-            return view;
-        }
-    }
-
-
 }

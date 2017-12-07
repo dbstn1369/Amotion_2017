@@ -39,7 +39,7 @@ public class SingerItemView extends LinearLayout {
         textView3 = (TextView)findViewById(R.id.textView3);
     }
 
-    public void setNumber(int number){textView1.setText(number);}
+    public void setNumber(String number){textView1.setText(number);}
     public void setContext(String context){textView2.setText(context);}
     public void setDay(String day){textView3.setText(day);}
 

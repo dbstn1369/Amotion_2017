@@ -5,20 +5,20 @@ package com.amotion.amotion_2017.data;
  */
 
 public class SingerItem {
-    int number;
+    String number;
     String context;
     String day;
 
-    public SingerItem(int number, String context, String day){
+    public SingerItem(String number, String context, String day){
         this.number = number;
         this.context = context;
         this.day = day;
     }
 
-    public int getNumber(){
+    public String getNumber(){
         return number;
     }
-    public void setNumber(int number){
+    public void setNumber(String number){
         this.number =number;
     }
     public String getContext(){
