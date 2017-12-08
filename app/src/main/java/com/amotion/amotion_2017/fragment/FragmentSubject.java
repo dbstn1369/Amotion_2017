@@ -14,10 +14,22 @@ import android.widget.DatePicker;
 import android.widget.ListView;
 
 import com.amotion.amotion_2017.R;
+import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
+import com.amotion.amotion_2017.asynctask.ResetScheduleAsyncTask;
+import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
+import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
+import com.amotion.amotion_2017.asynctask.SubjectTableAsyncTask;
+import com.amotion.amotion_2017.data.AsyncData;
+import com.amotion.amotion_2017.data.Schedule;
 import com.amotion.amotion_2017.data.SingerItem;
 import com.amotion.amotion_2017.data.SingerItemView;
+import com.amotion.amotion_2017.data.Subject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by YunDongHyeon on 2017-12-05.
@@ -47,7 +59,7 @@ public class FragmentSubject extends Fragment {
         Log.d("listView", "listView");
 
 
-    dateButton.setOnClickListener(new View.OnClickListener(){
+        dateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Calendar calendar = Calendar.getInstance();
                 int year = calendar.get(Calendar.YEAR);
@@ -55,9 +67,9 @@ public class FragmentSubject extends Fragment {
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), dateSetListener, year, month, day);
                 datePickerDialog.show();
-            }
+    }
 
-        });
+});
 
 
         adapter = new SingerAdapter();
@@ -107,9 +119,40 @@ public class FragmentSubject extends Fragment {
     }
 
     public DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            ArrayList<Schedule> scheduleArrayList = new ArrayList<>();
+
+
+            Map<String, String> map = new HashMap<String, String>();
+            Map<String, String> loginCookie = null;
+            ArrayList<Subject> subjects = null;
+            AsyncData asyncData;
+            map.put("id", "pw");
+
+            int day =  20170704;
+
+            scheduleArrayList.clear();
+
             dateButton.setText(year + "년 " + (monthOfYear + 1) + "월 " + dayOfMonth + "일");
+            ResetScheduleAsyncTask resetschedule = new ResetScheduleAsyncTask();
+            resetschedule.returnday(day);
+
+
+            try {
+                loginCookie = new LoginAsyncTask(getActivity()).execute(map).get();
+                subjects = new SubjectAsyncTask().execute(loginCookie).get();
+
+                asyncData = new AsyncData(loginCookie, subjects);
+
+                //TODO 스케쥴 들임
+                scheduleArrayList = new ResetScheduleAsyncTask().execute(asyncData).get();
+                System.out.println(scheduleArrayList);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     };
 
