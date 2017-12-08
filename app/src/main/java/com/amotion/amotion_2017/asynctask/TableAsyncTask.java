@@ -82,7 +82,7 @@ public class TableAsyncTask extends AsyncTask<TableAsyncData, String, ArrayList<
                     boardNum = 1;
                     Document tableDocument = tableResponse.parse();
 
-                    System.out.println(tableDocument.toString());
+                    //System.out.println(tableDocument.toString());
 
                     String subjectTitle = tableDocument.select("p.list_tit").get(0).ownText();
 

@@ -16,12 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.amotion.amotion_2017.asynctask.BoardItemAsyncTask;
 import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
 import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectSubmenuAsyncTask;
 import com.amotion.amotion_2017.asynctask.TableAsyncTask;
 import com.amotion.amotion_2017.data.AsyncData;
+import com.amotion.amotion_2017.data.BoardItemAsyncData;
 import com.amotion.amotion_2017.data.Schedule;
 import com.amotion.amotion_2017.data.Subject;
 
@@ -87,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
             for (Subject s : subjects){
                 Collections.sort(s.getTableDataArrayList());
             }
+
+            new BoardItemAsyncTask().execute(new BoardItemAsyncData(loginCookie, subjects.get(0).getTableDataArrayList().get(0)));
 
             System.out.println(subjects);
         } catch (Exception e) {
