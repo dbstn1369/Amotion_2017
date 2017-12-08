@@ -1,4 +1,4 @@
-package com.amotion.amotion_2017.data;
+package com.amotion.amotion_2017.View;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -8,23 +8,25 @@ import android.widget.TextView;
 
 import com.amotion.amotion_2017.R;
 
+import java.util.Date;
+
 /**
  * Created by Choiyoonsoo on 2017-12-05.
  */
 
-public class SingerItemView extends LinearLayout {
-    private TextView subject;
+public class ScheduleView extends LinearLayout {
+    private TextView course;
     private TextView content;
     private TextView startDate;
     private TextView endDate;
 
-    public SingerItemView(Context context){
+    public ScheduleView(Context context){
         super(context);
 
         init(context);
     }
 
-    public SingerItemView(Context context, AttributeSet attrs){
+    public ScheduleView(Context context, AttributeSet attrs){
         super(context, attrs);
 
         init(context);
@@ -33,25 +35,25 @@ public class SingerItemView extends LinearLayout {
     public void init(Context context) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.schedule_layout,this,true);
-        subject = (TextView)findViewById(R.id.subject);
+        course = (TextView)findViewById(R.id.course);
         content = (TextView)findViewById(R.id.content);
         startDate = (TextView)findViewById(R.id.startDate);
         endDate=(TextView)findViewById(R.id.endDate);
     }
 
-    public void setSubject(TextView subject) {
-        this.subject = subject;
+    public void setCourse(String course) {
+        this.course.setText(course);
     }
 
-    public void setContent(TextView content) {
-        this.content = content;
+    public void setContent(String content) {
+        this.content.setText(content);
     }
 
-    public void setStartDate(TextView startDate) {
-        this.startDate = startDate;
+    public void setStartDate(Date startDate) {
+        this.startDate.setText(startDate.toString());
     }
 
-    public void setEndDate(TextView endDate) {
-        this.endDate = endDate;
+    public void setEndDate(Date endDate) {
+        this.endDate.setText(endDate.toString());
     }
 }

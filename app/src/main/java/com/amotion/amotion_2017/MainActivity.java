@@ -1,7 +1,6 @@
 package com.amotion.amotion_2017;
 
-import android.icu.text.SymbolTable;
-import android.support.annotation.Nullable;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,32 +9,16 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
-import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
-import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
-import com.amotion.amotion_2017.asynctask.SubjectSubmenuAsyncTask;
-import com.amotion.amotion_2017.asynctask.TableAsyncTask;
-import com.amotion.amotion_2017.data.AsyncData;
+import com.amotion.amotion_2017.View.ActivityLogin;
 import com.amotion.amotion_2017.data.Schedule;
-import com.amotion.amotion_2017.data.Subject;
-
-import com.amotion.amotion_2017.data.TableAsyncData;
 import com.amotion.amotion_2017.fragment.FragmentCnu;
 import com.amotion.amotion_2017.fragment.FragmentHome;
 import com.amotion.amotion_2017.fragment.FragmentSubject;
-import org.w3c.dom.Text;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -59,29 +42,6 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         //slide끝
-
-        Map<String, String> map = new HashMap<String, String>();
-        Map<String, String> loginCookie = null;
-        ArrayList<Subject> subjects = null;
-        AsyncData asyncData;
-        map.put("id", "pw");
-
-        try {
-            loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
-            subjects = new SubjectAsyncTask().execute(loginCookie).get();
-
-            asyncData = new AsyncData(loginCookie, subjects);
-
-            subjects = new SubjectTableAsyncTask().execute(asyncData).get();
-
-            //System.out.println(subjects);
-            //TODO 스케쥴 들임
-            scheduleArrayList = new ScheduleAsyncTask().execute(asyncData).get();
-            System.out.println(scheduleArrayList);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
 
         // 병렬 처리시
         /*
@@ -143,9 +103,16 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(getApplicationContext(), ActivityLogin.class);
+            startActivityForResult(intent,1);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     //슬라이드 관련 메뉴이름 설정 및 내부 fragment관리

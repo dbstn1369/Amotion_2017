@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import com.amotion.amotion_2017.R;
 
 public  class FragmentCnu extends Fragment {
+    View rootView;
     public FragmentCnu() {
     }
 
@@ -30,7 +31,7 @@ public  class FragmentCnu extends Fragment {
     //내부화면 관리
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_cnu, null);
-
+        rootView = inflater.inflate(R.layout.fragment_cnu, null);
+        return rootView;
     }
 }
