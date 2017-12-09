@@ -68,6 +68,64 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
         //slide끝
 
+        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> loginCookie = null;
+        ArrayList<Subject> subjects = null;
+        AsyncData asyncData;
+        map.put("id", "putid");
+        map.put("pw", "putpw");
+
+        try {
+            /*
+            loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
+            subjects = new SubjectAsyncTask().execute(loginCookie).get();
+
+            asyncData = new AsyncData(loginCookie, subjects);
+
+            subjects = new SubjectSubmenuAsyncTask().execute(asyncData).get();
+
+            //System.out.println(subjects);
+            //TODO 스케쥴 들임
+            scheduleArrayList = new ScheduleAsyncTask().execute(asyncData).get();
+
+            for (int subjectIndex = 0 ;subjectIndex<subjects.size();subjectIndex++){
+
+                new TableAsyncTask().execute(new TableAsyncData(subjects.get(subjectIndex),loginCookie)).get();
+            }
+            for (Subject s : subjects){
+                Collections.sort(s.getTableDataArrayList());
+            }
+            //Todo
+            new BoardItemAsyncTask().execute(new BoardItemAsyncData(loginCookie, subjects.get(0).getTableDataArrayList().get(0))).get();
+
+            System.out.println(subjects);
+*/
+            //CSE
+            Map<String, String> cseMap = new HashMap<String, String>();
+            Map<String, String> cseLoginCookie = null;
+
+            cseMap.put("id", "putid");
+            cseMap.put("pw", "putpw");
+
+            cseLoginCookie = new CseLoginAsyncTask(getApplicationContext()).execute(cseMap).get();
+
+            String noticeUrl = "http://computer.cnu.ac.kr/index.php?mid=notice"; //학사공지
+            String gnoticeUrl = "http://computer.cnu.ac.kr/index.php?mid=gnotice";// 일반공지
+            String saccordUrl = "http://computer.cnu.ac.kr/index.php?mid=saccord"; //사업단
+            String jobUrl = "http://computer.cnu.ac.kr/index.php?mid=job"; //취업정보
+            String eventUrl = "http://computer.cnu.ac.kr/index.php?mid=event"; //뉴스
+
+            CseAsyncData cseAsyncData = new CseAsyncData(cseLoginCookie, noticeUrl);
+
+            ArrayList<CseBoardItem> cseBoardItems = new CseBoardAsyncTask().execute(cseAsyncData).get();
+
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         // 병렬 처리시
         /*
@@ -129,16 +187,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(getApplicationContext(), ActivityLogin.class);
-            startActivityForResult(intent,1);
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     //슬라이드 관련 메뉴이름 설정 및 내부 fragment관리
