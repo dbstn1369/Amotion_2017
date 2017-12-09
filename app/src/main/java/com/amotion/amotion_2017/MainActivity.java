@@ -24,12 +24,15 @@ import android.widget.TextView;
 import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
 import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
-import com.amotion.amotion_2017.asynctask.SubjectTableAsyncTask;
+import com.amotion.amotion_2017.asynctask.SubjectSubmenuAsyncTask;
+import com.amotion.amotion_2017.asynctask.TableAsyncTask;
 import com.amotion.amotion_2017.data.AsyncData;
 import com.amotion.amotion_2017.data.Schedule;
 import com.amotion.amotion_2017.data.SingerItem;
 import com.amotion.amotion_2017.data.SingerItemView;
 import com.amotion.amotion_2017.data.Subject;
+
+import com.amotion.amotion_2017.data.TableAsyncData;
 import com.amotion.amotion_2017.fragment.FragmentCnu;
 import com.amotion.amotion_2017.fragment.FragmentHome;
 import com.amotion.amotion_2017.fragment.FragmentSubject;
@@ -37,6 +40,7 @@ import com.amotion.amotion_2017.fragment.FragmentSubject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
         Map<String, String> loginCookie = null;
         ArrayList<Subject> subjects = null;
         AsyncData asyncData;
-        map.put("id", "pw");
+        map.put("id", "putid");
+        map.put("pw", "putpw");
 
         try {
             loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
@@ -76,12 +81,23 @@ public class MainActivity extends AppCompatActivity {
 
             asyncData = new AsyncData(loginCookie, subjects);
 
-            subjects = new SubjectTableAsyncTask().execute(asyncData).get();
+            subjects = new SubjectSubmenuAsyncTask().execute(asyncData).get();
 
             //System.out.println(subjects);
             //TODO 스케쥴 들임
             scheduleArrayList = new ScheduleAsyncTask().execute(asyncData).get();
-            System.out.println(scheduleArrayList);
+
+            for (int subjectIndex = 0 ;subjectIndex<subjects.size();subjectIndex++){
+
+                new TableAsyncTask().execute(new TableAsyncData(subjects.get(subjectIndex),loginCookie)).get();
+            }
+
+
+            for (Subject s : subjects){
+                Collections.sort(s.getTableDataArrayList());
+            }
+
+            System.out.println(subjects);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -198,4 +214,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //추후 클래스로 분리할것
+
+
+
 }

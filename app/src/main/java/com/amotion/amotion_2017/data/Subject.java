@@ -14,6 +14,7 @@ public class Subject {
     private String subject_cd;
     private String user_no;
     private ArrayList<SubMenu> subMenus;
+    private ArrayList<TableData> tableDataArrayList;
     private String subjectName;
 
     public ArrayList<SubMenu> getSubMenus() {
@@ -87,6 +88,16 @@ public class Subject {
     public void setUser_no(String user_no) {
         this.user_no = user_no;
     }
+    public ArrayList<TableData> getTableDataArrayList()
+    {
+        return tableDataArrayList;
+    }
+
+    public void setTableDataArrayList(ArrayList<TableData> tableDataArrayList)
+    {
+        this.tableDataArrayList = tableDataArrayList;
+    }
+
 
     @Override
     public String toString() {
