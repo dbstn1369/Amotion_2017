@@ -59,7 +59,6 @@ public  class FragmentCnu extends Fragment {
                     adapter.addItem(cseBoardItems[position].get(i));
                 }
                 cnuList.setAdapter(adapter);
-
                 adapter.notifyDataSetChanged();
             }
 
