@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.amotion.amotion_2017.asynctask.BoardItemAsyncTask;
 import com.amotion.amotion_2017.asynctask.CseBoardAsyncTask;
+import com.amotion.amotion_2017.asynctask.CseBoardItemAsyncTask;
 import com.amotion.amotion_2017.asynctask.CseLoginAsyncTask;
 import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
 import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
@@ -25,9 +26,11 @@ import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectSubmenuAsyncTask;
 import com.amotion.amotion_2017.asynctask.TableAsyncTask;
 import com.amotion.amotion_2017.data.AsyncData;
+import com.amotion.amotion_2017.data.Board;
 import com.amotion.amotion_2017.data.BoardItemAsyncData;
 import com.amotion.amotion_2017.data.CseAsyncData;
 import com.amotion.amotion_2017.data.CseBoardItem;
+import com.amotion.amotion_2017.data.CseBoardItemAsyncData;
 import com.amotion.amotion_2017.data.Schedule;
 import com.amotion.amotion_2017.data.Subject;
 
@@ -116,6 +119,10 @@ public class MainActivity extends AppCompatActivity {
 
             ArrayList<CseBoardItem> cseBoardItems = new CseBoardAsyncTask().execute(cseAsyncData).get();
 
+            CseBoardItemAsyncData cseBoardItemAsyncData = new CseBoardItemAsyncData(cseLoginCookie, cseBoardItems.get(0));
+
+
+            Board board = new CseBoardItemAsyncTask().execute(cseBoardItemAsyncData).get();
 
 
 
