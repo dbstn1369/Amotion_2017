@@ -27,7 +27,7 @@ public class BoardItemAsyncTask extends AsyncTask<BoardItemAsyncData,String,Boar
     protected Board doInBackground(BoardItemAsyncData... boardItemAsyncData) {
         TableData tableData =  boardItemAsyncData[0].getTableData();
         Map<String, String> loginTryCookie = boardItemAsyncData[0].getLoginCookie();
-
+        Board board=null;
         try {
 
             String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36";
@@ -53,14 +53,27 @@ public class BoardItemAsyncTask extends AsyncTask<BoardItemAsyncData,String,Boar
 
             Element boardTable = boardElements.first();
 
-            u00000
+            //System.out.println(boardTable.toString());
 
+            String title = boardTable.select("#td_boarditem_title").first().ownText();
+            String writer = boardTable.select("#td_user_name").first().ownText();
+            String writeDate = boardTable.select("#td_f_insert_dt").first().ownText();
+            String text = boardTable.select("#td_boarditem_content").first().ownText();
 
+            Elements fileElement = boardTable.select("tr").get(2).select("a");
+
+            boolean isFile = false;
+
+            if (!fileElement.isEmpty()){
+                isFile=true;
+            }
+
+            board = new Board(title,writer,writeDate,text,isFile);
 
         } catch (Exception ex) {
             Log.e("SubjectAsync", "Error");
             ex.printStackTrace();
         }
-        return null;
+        return board;
     }
 }

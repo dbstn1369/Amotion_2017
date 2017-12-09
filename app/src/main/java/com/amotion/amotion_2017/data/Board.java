@@ -11,13 +11,17 @@ public class Board {
     private String writer;
     private String writeDate;
     private String text;
+    private boolean isFile=false;
 
-    public Board(String title, String writer, String writeDate, String text) {
+    public Board(String title, String writer, String writeDate, String text, boolean isFile)
+    {
         this.title = title;
         this.writer = writer;
         this.writeDate = writeDate;
         this.text = text;
+        this.isFile = isFile;
     }
+
 
     public String getTitle() {
         return title;
@@ -49,5 +53,15 @@ public class Board {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public boolean isFile()
+    {
+        return isFile;
+    }
+
+    public void setFile(boolean file)
+    {
+        isFile = file;
     }
 }

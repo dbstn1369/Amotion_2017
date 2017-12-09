@@ -89,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
             for (Subject s : subjects){
                 Collections.sort(s.getTableDataArrayList());
             }
-
-            new BoardItemAsyncTask().execute(new BoardItemAsyncData(loginCookie, subjects.get(0).getTableDataArrayList().get(0)));
+            //Todo
+            new BoardItemAsyncTask().execute(new BoardItemAsyncData(loginCookie, subjects.get(0).getTableDataArrayList().get(0))).get();
 
             System.out.println(subjects);
         } catch (Exception e) {
