@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -14,39 +15,41 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by JSH on 2017-12-04.
+ * Created by JSH on 2017-12-09.
  */
 
-public class LoginAsyncTask extends AsyncTask<Map<String, String>, String, Map<String, String>> {
+public class CseLoginAsyncTask extends AsyncTask<Map<String, String>, String, Map<String, String>> {
+
     @SuppressLint("StaticFieldLeak")
     private static Context context;
 
-    public LoginAsyncTask(Context context) {
-        LoginAsyncTask.context = context;
+    public CseLoginAsyncTask(Context context) {
+        CseLoginAsyncTask.context = context;
     }
-
 
     @Override
     protected Map<String, String> doInBackground(Map<String, String>[] maps) {
+        JSONObject idpw = null;
         Map<String, String> loginTryCookie=null;
         try {
-            JSONObject idpw = new JSONObject(loadJSONFromAsset());
+            idpw = new JSONObject(loadJSONFromAsset());
 
             //TODO 아이디 패스워드 입력
             Map<String, String> logindata = new HashMap<>();//로그인하기 위한 data 값들.
             logindata.put("user_id", idpw.getString("id"));
             logindata.put("user_password", idpw.getString("pw"));
-            logindata.put("group_cd", "UN");
-            logindata.put("sub_group_cd", "");
-            //logindata.put("sso_url", "http://portal.cnu.ac.kr/enview/portal/");
-            //logindata.put("schedule_selected_date", new Date().toString());
-            //logindata.put("fnc_return", "");
+            logindata.put("mid","smain");
+            logindata.put("vid","");
+            logindata.put("ruleset","@login");
+            logindata.put("success_return_url","");
+            logindata.put("act","procMemberLogin");
+            logindata.put("xe_validator_id", "modules/member/skins");
 
             // 로그인
-            Connection.Response loginPageResponse = Jsoup.connect("http://e-learn.cnu.ac.kr/login/doLogin.dunet")//세션유지를 위한 사이트 연결
+            Connection.Response loginPageResponse = Jsoup.connect("http://computer.cnu.ac.kr/index.php?act=procMemberLogin")//세션유지를 위한 사이트 연결
                     .timeout(60000)//header 값들은 구글 크롬개발자로 구하면 됩니다.
-                    .header("Origin", "http://e-learn.cnu.ac.kr")
-                    .header("Referer", "http://e-learn.cnu.ac.kr/login/doLogin.dunet")
+                    .header("Origin", "http://computer.cnu.ac.kr/")
+                    .header("Referer", "http://computer.cnu.ac.kr/index.php?act=procMemberLogin")
                     .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
                     .header("Content-Type", "application/x-www-form-urlencoded")
                     .header("Accept-Encoding", "gzip, deflate, br")
@@ -60,7 +63,6 @@ public class LoginAsyncTask extends AsyncTask<Map<String, String>, String, Map<S
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return loginTryCookie;
     }
 
@@ -68,7 +70,7 @@ public class LoginAsyncTask extends AsyncTask<Map<String, String>, String, Map<S
         String json = null;
         try {
 
-            InputStream is = context.getAssets().open("idpw.json");
+            InputStream is = context.getAssets().open("idpw2.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -82,4 +84,5 @@ public class LoginAsyncTask extends AsyncTask<Map<String, String>, String, Map<S
         return json;
 
     }
+
 }

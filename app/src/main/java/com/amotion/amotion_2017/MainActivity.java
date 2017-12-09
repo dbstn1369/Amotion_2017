@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.amotion.amotion_2017.asynctask.BoardItemAsyncTask;
+import com.amotion.amotion_2017.asynctask.CseLoginAsyncTask;
 import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
 import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
@@ -84,6 +85,15 @@ public class MainActivity extends AppCompatActivity {
 
                 new TableAsyncTask().execute(new TableAsyncData(subjects.get(subjectIndex),loginCookie)).get();
             }
+
+            Map<String, String> cseMap = new HashMap<String, String>();
+            Map<String, String> cseLoginCookie = null;
+
+
+            cseMap.put("id", "putid");
+            cseMap.put("pw", "putpw");
+
+            cseLoginCookie = new CseLoginAsyncTask(getApplicationContext()).execute(cseMap).get();
 
 
             for (Subject s : subjects){
