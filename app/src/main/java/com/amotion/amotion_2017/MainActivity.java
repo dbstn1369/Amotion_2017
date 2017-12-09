@@ -1,7 +1,5 @@
 package com.amotion.amotion_2017;
 
-import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,42 +8,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-
-import com.amotion.amotion_2017.asynctask.BoardItemAsyncTask;
-import com.amotion.amotion_2017.View.ActivityLogin;
-import com.amotion.amotion_2017.asynctask.CseBoardAsyncTask;
 import com.amotion.amotion_2017.asynctask.CseLoginAsyncTask;
 import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
-import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
-import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
-import com.amotion.amotion_2017.asynctask.SubjectSubmenuAsyncTask;
-import com.amotion.amotion_2017.asynctask.TableAsyncTask;
-import com.amotion.amotion_2017.data.AsyncData;
-import com.amotion.amotion_2017.data.BoardItemAsyncData;
-import com.amotion.amotion_2017.data.CseAsyncData;
-import com.amotion.amotion_2017.data.CseBoardItem;
-import com.amotion.amotion_2017.data.Schedule;
 
 import com.amotion.amotion_2017.fragment.FragmentCnu;
-import com.amotion.amotion_2017.fragment.FragmentHome;
+import com.amotion.amotion_2017.fragment.FragmentSchedule;
 import com.amotion.amotion_2017.fragment.FragmentSubject;
 
-import com.amotion.amotion_2017.data.SingerItem;
-import com.amotion.amotion_2017.data.SingerItemView;
-import com.amotion.amotion_2017.data.Subject;
-
-import com.amotion.amotion_2017.data.TableAsyncData;
-import com.amotion.amotion_2017.fragment.FragmentCnu;
-import com.amotion.amotion_2017.fragment.FragmentHome;
-import com.amotion.amotion_2017.fragment.FragmentSubject;
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -133,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     //슬라이드 관련 메뉴이름 설정 및 내부 fragment관리
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
-        FragmentHome fragmentHome=new FragmentHome();
+        FragmentSchedule fragmentHome=new FragmentSchedule();
         FragmentCnu fragmentCnu = new FragmentCnu();
         FragmentSubject fragmentSubject = new FragmentSubject();
 
@@ -166,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "HOME";
+                    return "Schedule";
                 case 1:
                     return "E-LEARNING";
                 case 2:
