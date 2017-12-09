@@ -17,7 +17,7 @@ import java.util.Map;
  * Created by JSH on 2017-12-04.
  */
 
-public class LoginAsyncTask extends AsyncTask<Map<String, String>, Void, Map<String, String>> {
+public class LoginAsyncTask extends AsyncTask<Map<String, String>, String, Map<String, String>> {
     @SuppressLint("StaticFieldLeak")
     private static Context context;
 
@@ -32,6 +32,7 @@ public class LoginAsyncTask extends AsyncTask<Map<String, String>, Void, Map<Str
         try {
             JSONObject idpw = new JSONObject(loadJSONFromAsset());
 
+            publishProgress();
             //TODO 아이디 패스워드 입력
             Map<String, String> logindata = new HashMap<>();//로그인하기 위한 data 값들.
             logindata.put("user_id", idpw.getString("id"));
