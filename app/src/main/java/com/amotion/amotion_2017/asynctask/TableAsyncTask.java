@@ -42,6 +42,7 @@ public class TableAsyncTask extends AsyncTask<TableAsyncData, String, ArrayList<
                 tableData.put("board_no", subject.getSubMenus().get(subIndex).getBoard_no());
 
                 Connection.Response tableResponse = Jsoup.connect("http://e-learn.cnu.ac.kr/lms/class/boardItem/doListView.dunet")
+
                         .userAgent(userAgent)
                         .timeout(60000)
                         .header("Origin", "http://e-learn.cnu.ac.kr")
@@ -55,6 +56,7 @@ public class TableAsyncTask extends AsyncTask<TableAsyncData, String, ArrayList<
                         .method(Connection.Method.POST)
                         .ignoreContentType(true)
                         .execute();
+
 
                 Document document = tableResponse.parse();
 
@@ -159,7 +161,6 @@ public class TableAsyncTask extends AsyncTask<TableAsyncData, String, ArrayList<
 
 
                     //Log.d("SubjectSubmenuAsyncTask", subMenuDocument.toString());
-
 
                 }
 

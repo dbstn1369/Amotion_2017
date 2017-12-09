@@ -29,10 +29,23 @@ import com.amotion.amotion_2017.data.BoardItemAsyncData;
 import com.amotion.amotion_2017.data.CseAsyncData;
 import com.amotion.amotion_2017.data.CseBoardItem;
 import com.amotion.amotion_2017.data.Schedule;
+
 import com.amotion.amotion_2017.fragment.FragmentCnu;
 import com.amotion.amotion_2017.fragment.FragmentHome;
 import com.amotion.amotion_2017.fragment.FragmentSubject;
+
+import com.amotion.amotion_2017.data.SingerItem;
+import com.amotion.amotion_2017.data.SingerItemView;
+import com.amotion.amotion_2017.data.Subject;
+
+import com.amotion.amotion_2017.data.TableAsyncData;
+import com.amotion.amotion_2017.fragment.FragmentCnu;
+import com.amotion.amotion_2017.fragment.FragmentHome;
+import com.amotion.amotion_2017.fragment.FragmentSubject;
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;

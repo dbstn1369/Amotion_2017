@@ -1,5 +1,6 @@
 package com.amotion.amotion_2017.fragment;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -24,7 +27,20 @@ import com.amotion.amotion_2017.data.Subject;
 import com.amotion.amotion_2017.data.TableAsyncData;
 import com.amotion.amotion_2017.data.TableData;
 
+import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
+import com.amotion.amotion_2017.asynctask.ResetScheduleAsyncTask;
+import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
+import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
+import com.amotion.amotion_2017.asynctask.SubjectTableAsyncTask;
+import com.amotion.amotion_2017.data.AsyncData;
+import com.amotion.amotion_2017.data.Schedule;
+import com.amotion.amotion_2017.data.SingerItem;
+import com.amotion.amotion_2017.data.SingerItemView;
+import com.amotion.amotion_2017.data.Subject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
 import java.util.Collections;
 
 /**
@@ -33,6 +49,7 @@ import java.util.Collections;
 
 
 public class FragmentSubject extends Fragment {
+
     View rootView;
     Spinner subjectSpinner;
     ListView subjectList;
@@ -40,8 +57,10 @@ public class FragmentSubject extends Fragment {
     private SubjectAdapter subjectAdapter;
     static ArrayList<Schedule> scheduleArrayList = new ArrayList<>();
 
+
     public FragmentSubject() {
     }
+
 
     @Nullable
     //내부화면 관리
