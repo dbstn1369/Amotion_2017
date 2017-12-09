@@ -1,5 +1,7 @@
 package com.amotion.amotion_2017;
 
+import android.content.Context;
+import android.icu.text.SymbolTable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
@@ -23,6 +28,8 @@ import com.amotion.amotion_2017.asynctask.SubjectSubmenuAsyncTask;
 import com.amotion.amotion_2017.asynctask.TableAsyncTask;
 import com.amotion.amotion_2017.data.AsyncData;
 import com.amotion.amotion_2017.data.Schedule;
+import com.amotion.amotion_2017.data.SingerItem;
+import com.amotion.amotion_2017.data.SingerItemView;
 import com.amotion.amotion_2017.data.Subject;
 
 import com.amotion.amotion_2017.data.TableAsyncData;
@@ -205,7 +212,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //추후 클래스로 분리할것
-
-
-
 }

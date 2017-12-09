@@ -28,7 +28,6 @@ import java.util.Map;
 /**
  * Created by JSH on 2017-12-04.
  */
-
 public class ScheduleAsyncTask extends AsyncTask<AsyncData, Void, ArrayList<Schedule>>
 {
     @Override
@@ -45,7 +44,10 @@ public class ScheduleAsyncTask extends AsyncTask<AsyncData, Void, ArrayList<Sche
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
             String date = simpleDateFormat.format(new Date());
 
+
             data.put("schedule_dt",date);
+
+
 
             Connection.Response scheduleResponse = Jsoup.connect("http://e-learn.cnu.ac.kr/lms/mypage/schedule/doListMySchedule.dunet")
                     .userAgent(userAgent)
@@ -90,3 +92,4 @@ public class ScheduleAsyncTask extends AsyncTask<AsyncData, Void, ArrayList<Sche
         return scheduleArrayList;
     }
 }
+
