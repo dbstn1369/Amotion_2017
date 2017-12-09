@@ -18,7 +18,6 @@ import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
 import com.amotion.amotion_2017.asynctask.ResetScheduleAsyncTask;
 import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
-import com.amotion.amotion_2017.asynctask.SubjectTableAsyncTask;
 import com.amotion.amotion_2017.data.AsyncData;
 import com.amotion.amotion_2017.data.Schedule;
 import com.amotion.amotion_2017.data.SingerItem;
@@ -133,7 +132,6 @@ public class FragmentSubject extends Fragment {
 
             int day =  20170704;
 
-            scheduleArrayList.clear();
 
             dateButton.setText(year + "년 " + (monthOfYear + 1) + "월 " + dayOfMonth + "일");
             ResetScheduleAsyncTask resetschedule = new ResetScheduleAsyncTask();
