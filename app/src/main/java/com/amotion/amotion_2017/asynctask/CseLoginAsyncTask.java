@@ -37,7 +37,7 @@ public class CseLoginAsyncTask extends AsyncTask<Map<String, String>, String, Ma
             //TODO 아이디 패스워드 입력
             Map<String, String> logindata = new HashMap<>();//로그인하기 위한 data 값들.
             logindata.put("user_id", idpw.getString("id"));
-            logindata.put("user_password", idpw.getString("pw"));
+            logindata.put("password", idpw.getString("pw"));
             logindata.put("ruleset","@login");
             logindata.put("error_return_url","/index.php?mid=int_ugreet");
             logindata.put("success_return_url","/index.php?mid=int_ugreet");
