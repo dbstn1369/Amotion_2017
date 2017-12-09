@@ -14,20 +14,36 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.amotion.amotion_2017.View.ActivityLogin;
+import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
 import com.amotion.amotion_2017.data.Schedule;
 import com.amotion.amotion_2017.fragment.FragmentCnu;
 import com.amotion.amotion_2017.fragment.FragmentHome;
 import com.amotion.amotion_2017.fragment.FragmentSubject;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+
 public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    static ArrayList<Schedule> scheduleArrayList = new ArrayList<>();
+    public static Map<String, String> loginCookie = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cnup_main);
+
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("id", "putid");
+        map.put("pw", "putpw");
+        try {
+            loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
         //slide관련
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -159,9 +175,4 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
-
-    //추후 클래스로 분리할것
-
-
-
 }

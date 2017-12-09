@@ -9,28 +9,23 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import com.amotion.amotion_2017.MainActivity;
 import com.amotion.amotion_2017.R;
-import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
 import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectSubmenuAsyncTask;
-import com.amotion.amotion_2017.asynctask.TableAsyncTask;
 import com.amotion.amotion_2017.data.AsyncData;
 import com.amotion.amotion_2017.data.Schedule;
 import com.amotion.amotion_2017.View.ScheduleView;
 import com.amotion.amotion_2017.data.Subject;
-import com.amotion.amotion_2017.data.TableAsyncData;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 public class FragmentHome extends Fragment {
     private View rootView;
-    static ArrayList<Schedule> scheduleArrayList = new ArrayList<>();
-    SingerAdapter adapter;
-    ListView listView;
+    private ArrayList<Schedule> scheduleArrayList = new ArrayList<>();
+    private ScheduleAdapter adapter;
+    private ListView listView;
     public FragmentHome() {
     }
 
@@ -39,52 +34,34 @@ public class FragmentHome extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView= inflater.inflate(R.layout.fragment_home, null);
-        listView=rootView.findViewById(R.id.subjectList);
-
-        if(getAssignmentList()){
-            adapter = new SingerAdapter();
+        listView=rootView.findViewById(R.id.scheduleList);
+        listView.setAdapter(adapter);
+        if(adapter.getCount()==0){
             for(int i=0;i<scheduleArrayList.size();i++){
                 adapter.addItem(scheduleArrayList.get(i));
             }
-            listView.setAdapter(adapter);
-        }else{
-            System.out.print("로드 실패");
         }
-
-
-
-
-
         return rootView;
     }
 
-    boolean getAssignmentList(){
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(!getAssignmentList()){
+            System.out.print("로드 실패");
+        }
+        adapter = new ScheduleAdapter();
+    }
 
-        Map<String, String> map = new HashMap<String, String>();
-        Map<String, String> loginCookie = null;
+    boolean getAssignmentList(){
         ArrayList<Subject> subjects = null;
         AsyncData asyncData;
-        map.put("id", "putid");
-        map.put("pw", "putpw");
-
         try {
-            loginCookie = new LoginAsyncTask(getActivity()).execute(map).get();
-            subjects = new SubjectAsyncTask().execute(loginCookie).get();
-            asyncData = new AsyncData(loginCookie, subjects);
-            subjects = new SubjectSubmenuAsyncTask().execute(asyncData).get();
-
+            subjects = new SubjectAsyncTask().execute(MainActivity.loginCookie).get();
+            asyncData = new AsyncData(MainActivity.loginCookie, subjects);
             //System.out.println(subjects);
             //TODO 스케쥴 들임
             scheduleArrayList = new ScheduleAsyncTask().execute(asyncData).get();
-
-            for (int subjectIndex = 0 ;subjectIndex<subjects.size();subjectIndex++){
-                new TableAsyncTask().execute(new TableAsyncData(subjects.get(subjectIndex),loginCookie)).get();
-            }
-
-            for (Subject s : subjects) {
-                Collections.sort(s.getTableDataArrayList());
-            }
-
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -93,7 +70,7 @@ public class FragmentHome extends Fragment {
         return true;
     }
 
-    class SingerAdapter extends BaseAdapter {
+    class ScheduleAdapter extends BaseAdapter {
         ArrayList<Schedule> items = new ArrayList<Schedule>();
 
         @Override

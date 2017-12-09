@@ -5,12 +5,13 @@
     android:orientation="vertical">
 
 
-
-<TableLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TableRow>
-
-    </TableRow>
-</TableLayout>
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></Spinner>
+   <ListView
+        android:id="@+id/subject_List"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
 </LinearLayout>

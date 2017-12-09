@@ -22,7 +22,6 @@ public class ScheduleView extends LinearLayout {
 
     public ScheduleView(Context context){
         super(context);
-
         init(context);
     }
 
@@ -34,11 +33,11 @@ public class ScheduleView extends LinearLayout {
 
     public void init(Context context) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.schedule_layout,this,true);
-        course = (TextView)findViewById(R.id.course);
-        content = (TextView)findViewById(R.id.content);
-        startDate = (TextView)findViewById(R.id.startDate);
-        endDate=(TextView)findViewById(R.id.endDate);
+        inflater.inflate(R.layout.schedule_item,this,true);
+        course = (TextView)findViewById(R.id.schedule_course);
+        content = (TextView)findViewById(R.id.schedule_content);
+        startDate = (TextView)findViewById(R.id.schedule_startDate);
+        endDate=(TextView)findViewById(R.id.schedule_endDate);
     }
 
     public void setCourse(String course) {
