@@ -4,16 +4,29 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.Spinner;
 
+import com.amotion.amotion_2017.MainActivity;
 import com.amotion.amotion_2017.R;
+import com.amotion.amotion_2017.View.SubjectView;
+import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
+import com.amotion.amotion_2017.asynctask.SubjectSubmenuAsyncTask;
+import com.amotion.amotion_2017.asynctask.TableAsyncTask;
+import com.amotion.amotion_2017.data.AsyncData;
+import com.amotion.amotion_2017.data.Schedule;
+import com.amotion.amotion_2017.data.Subject;
+import com.amotion.amotion_2017.data.TableAsyncData;
+import com.amotion.amotion_2017.data.TableData;
+
 import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
 import com.amotion.amotion_2017.asynctask.ResetScheduleAsyncTask;
 import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
@@ -27,9 +40,8 @@ import com.amotion.amotion_2017.data.Subject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.Collections;
 
 /**
  * Created by YunDongHyeon on 2017-12-05.
@@ -37,10 +49,13 @@ import java.util.Map;
 
 
 public class FragmentSubject extends Fragment {
-    Button dateButton;
-    ListView listView;
-    SingerAdapter adapter;
-    View view;
+
+    View rootView;
+    Spinner subjectSpinner;
+    ListView subjectList;
+    ArrayList<Subject> subjects = null;
+    private SubjectAdapter subjectAdapter;
+    static ArrayList<Schedule> scheduleArrayList = new ArrayList<>();
 
 
     public FragmentSubject() {
@@ -51,49 +66,80 @@ public class FragmentSubject extends Fragment {
     //내부화면 관리
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.fragment_subject, null);
+        subjectSpinner = (Spinner) rootView.findViewById(R.id.subject_spinner);
+        subjectList = (ListView) rootView.findViewById(R.id.subject_List);
+
+        String list[] = new String[subjects.size() + 1];
+        list[0] = "과목 선택";
+        for (int i = 1; i <= subjects.size(); i++) {
+            list[i] = subjects.get(i - 1).getSubjectName();
+        }
 
 
-        view = inflater.inflate(R.layout.fragment_subject, null);
-        listView = (ListView) view.findViewById(R.id.listView);
-        dateButton = (Button) view.findViewById(R.id.date);
-        Log.d("listView", "listView");
+        ArrayAdapter<CharSequence> spinnerAdapter = new ArrayAdapter<CharSequence>(getActivity(), R.layout.spinner_item, list);
+        subjectSpinner.setAdapter(spinnerAdapter);
 
+        subjectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                subjectAdapter = new SubjectAdapter();
+                subjectList.setAdapter(subjectAdapter);
+                if (position == 0)
+                    return;
+                try {
+                    if (subjects.get(position - 1).getTableDataArrayList() == null) {
+                        new TableAsyncTask().execute(new TableAsyncData(subjects.get(position - 1), MainActivity.loginCookie)).get();
+                        Collections.sort(subjects.get(position - 1).getTableDataArrayList());
+                    }
+                } catch (Exception e) {
+                    System.out.print("error");
+                    e.printStackTrace();
+                }
+                ArrayList<TableData> itmes = subjects.get(position - 1).getTableDataArrayList();
 
-        dateButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), dateSetListener, year, month, day);
-                datePickerDialog.show();
+                for (int i = 0; i < itmes.size(); i++) {
+                    subjectAdapter.addItem(itmes.get(i));
+                }
+                subjectAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        return rootView;
     }
 
-});
-
-
-        adapter = new SingerAdapter();
-        adapter.addItem(new SingerItem("1", "string", "string"));
-        adapter.addItem(new SingerItem("2", "string", "string"));
-        adapter.addItem(new SingerItem("3", "string", "string"));
-        adapter.addItem(new SingerItem("4", "string", "string"));
-        Log.d("listView", "listView2");
-        listView.setAdapter(adapter);
-
-
-        return view;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getSubject();
     }
 
+    public void getSubject() {
+        try {
+            AsyncData asyncData;
+            subjects = new SubjectAsyncTask().execute(MainActivity.loginCookie).get();
+            asyncData = new AsyncData(MainActivity.loginCookie, subjects);
+            subjects = new SubjectSubmenuAsyncTask().execute(asyncData).get();
+            //System.out.println(subjects);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-    class SingerAdapter extends BaseAdapter {
-        ArrayList<SingerItem> items = new ArrayList<SingerItem>();
+    class SubjectAdapter extends BaseAdapter {
+        ArrayList<TableData> items = new ArrayList<TableData>();
 
         @Override
         public int getCount() {
             return items.size();
         }
 
-        public void addItem(SingerItem item) {
+        public void addItem(TableData item) {
             items.add(item);
         }
 
@@ -109,51 +155,12 @@ public class FragmentSubject extends Fragment {
 
         @Override
         public View getView(int position, View converView, ViewGroup viewGroup) {
-            SingerItemView view = new SingerItemView(getContext());
-            SingerItem item = items.get(position);
-            view.setNumber(item.getNumber());
-            view.setContext(item.getContext());
-            view.setDay(item.getDay());
+            SubjectView view = new SubjectView(getContext());
+            TableData item = items.get(position);
+            view.setSubject(item.getBoardName().toString());
+            view.setTitle(item.getTitle().toString());
+            view.setDate("ww");
             return view;
         }
     }
-
-    public DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            ArrayList<Schedule> scheduleArrayList = new ArrayList<>();
-
-
-            Map<String, String> map = new HashMap<String, String>();
-            Map<String, String> loginCookie = null;
-            ArrayList<Subject> subjects = null;
-            AsyncData asyncData;
-            map.put("id", "pw");
-
-            int day =  20170704;
-
-            scheduleArrayList.clear();
-
-            dateButton.setText(year + "년 " + (monthOfYear + 1) + "월 " + dayOfMonth + "일");
-            ResetScheduleAsyncTask resetschedule = new ResetScheduleAsyncTask();
-            resetschedule.returnday(day);
-
-
-            try {
-                loginCookie = new LoginAsyncTask(getActivity()).execute(map).get();
-                subjects = new SubjectAsyncTask().execute(loginCookie).get();
-
-                asyncData = new AsyncData(loginCookie, subjects);
-
-                //TODO 스케쥴 들임
-                scheduleArrayList = new ResetScheduleAsyncTask().execute(asyncData).get();
-                System.out.println(scheduleArrayList);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-    };
-
 }

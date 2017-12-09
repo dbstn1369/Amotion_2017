@@ -1,7 +1,6 @@
 package com.amotion.amotion_2017;
 
-import android.content.Context;
-import android.icu.text.SymbolTable;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,20 +13,27 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import com.amotion.amotion_2017.asynctask.BoardItemAsyncTask;
+import com.amotion.amotion_2017.View.ActivityLogin;
+import com.amotion.amotion_2017.asynctask.CseBoardAsyncTask;
+import com.amotion.amotion_2017.asynctask.CseLoginAsyncTask;
 import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
 import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectSubmenuAsyncTask;
 import com.amotion.amotion_2017.asynctask.TableAsyncTask;
 import com.amotion.amotion_2017.data.AsyncData;
+import com.amotion.amotion_2017.data.BoardItemAsyncData;
+import com.amotion.amotion_2017.data.CseAsyncData;
+import com.amotion.amotion_2017.data.CseBoardItem;
 import com.amotion.amotion_2017.data.Schedule;
+
+import com.amotion.amotion_2017.fragment.FragmentCnu;
+import com.amotion.amotion_2017.fragment.FragmentHome;
+import com.amotion.amotion_2017.fragment.FragmentSubject;
+
 import com.amotion.amotion_2017.data.SingerItem;
 import com.amotion.amotion_2017.data.SingerItemView;
 import com.amotion.amotion_2017.data.Subject;
@@ -37,20 +43,45 @@ import com.amotion.amotion_2017.fragment.FragmentCnu;
 import com.amotion.amotion_2017.fragment.FragmentHome;
 import com.amotion.amotion_2017.fragment.FragmentSubject;
 import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    static ArrayList<Schedule> scheduleArrayList = new ArrayList<>();
+    public static Map<String, String> loginCookie = null;
+    public static Map<String, String> cseLoginCookie = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cnup_main);
+        //이러닝 로그인 정보를 사용하여 로그인 쿠키를 얻어옴
+        //컴공사이트 로그인 정보를 사용하여 로그인 쿠키를 얻어옴
+
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("id", "putid");
+        map.put("pw", "putpw");
+
+        Map<String, String> cseMap = new HashMap<String, String>();
+        cseMap.put("id", "putid");
+        cseMap.put("pw", "putpw");
+
+        try {
+            loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
+            cseLoginCookie = new CseLoginAsyncTask(getApplicationContext()).execute(cseMap).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+
+
 
         //slide관련
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -65,72 +96,6 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         //slide끝
-
-        Map<String, String> map = new HashMap<String, String>();
-        Map<String, String> loginCookie = null;
-        ArrayList<Subject> subjects = null;
-        AsyncData asyncData;
-        map.put("id", "putid");
-        map.put("pw", "putpw");
-
-        try {
-            loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
-            subjects = new SubjectAsyncTask().execute(loginCookie).get();
-
-            asyncData = new AsyncData(loginCookie, subjects);
-
-            subjects = new SubjectSubmenuAsyncTask().execute(asyncData).get();
-
-            //System.out.println(subjects);
-            //TODO 스케쥴 들임
-            scheduleArrayList = new ScheduleAsyncTask().execute(asyncData).get();
-
-            for (int subjectIndex = 0 ;subjectIndex<subjects.size();subjectIndex++){
-
-                new TableAsyncTask().execute(new TableAsyncData(subjects.get(subjectIndex),loginCookie)).get();
-            }
-
-
-            for (Subject s : subjects){
-                Collections.sort(s.getTableDataArrayList());
-            }
-
-            System.out.println(subjects);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        // 병렬 처리시
-        /*
-        //new SubjectAsyncTask(getApplicationContext()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        */
-/*
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        */
-        //읽을때
-        /*
-        SharedPreferences test = getSharedPreferences("subjects", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = test.getString("Subjects", "");
-        Type listType = new TypeToken<ArrayList<Subject>>() {}.getType();
-        ArrayList<Subject> subjects = gson.fromJson(json, listType);
-        Map<String, ArrayList<SubMenu>> subMenus=null;
-        */
-
-
-        //System.out.println(subjects);
-        //.System.out.println(subMenus.toString());
     }
 
     @Override
@@ -212,4 +177,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //추후 클래스로 분리할것
+
+
+
 }

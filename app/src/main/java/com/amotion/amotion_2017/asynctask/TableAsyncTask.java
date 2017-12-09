@@ -41,7 +41,8 @@ public class TableAsyncTask extends AsyncTask<TableAsyncData, String, ArrayList<
                 tableData.put("mnid", subject.getSubMenus().get(subIndex).getMnid());
                 tableData.put("board_no", subject.getSubMenus().get(subIndex).getBoard_no());
 
-                Connection.Response TableResponse = Jsoup.connect("http://e-learn.cnu.ac.kr/lms/class/boardItem/doListView.dunet")
+                Connection.Response tableResponse = Jsoup.connect("http://e-learn.cnu.ac.kr/lms/class/boardItem/doListView.dunet")
+
                         .userAgent(userAgent)
                         .timeout(60000)
                         .header("Origin", "http://e-learn.cnu.ac.kr")
@@ -56,30 +57,111 @@ public class TableAsyncTask extends AsyncTask<TableAsyncData, String, ArrayList<
                         .ignoreContentType(true)
                         .execute();
 
-                Document tableDocument = TableResponse.parse();
 
-                //Log.d("SubjectSubmenuAsyncTask", subMenuDocument.toString());
+                Document document = tableResponse.parse();
 
-                String subjectTitle = tableDocument.select("p.list_tit").get(0).ownText();
+                Map<String, String> tableNumData = new HashMap<String, String>();
 
-                Elements tableElements = tableDocument.select("table.list");
-                Elements tbodyElements = tableElements.select("tbody");
-                Elements tablerowElements = tbodyElements.select("tr");
+                tableNumData.put("page", String.valueOf(1));
+                tableNumData.put("rows", String.valueOf(10));
+                tableNumData.put("sord", "asc");
+                tableNumData.put("course_id", subject.getCourse_id());
+                tableNumData.put("class_no", subject.getClass_no());
+                tableNumData.put("menu_type", "class");
+                tableNumData.put("mode", "");
+                tableNumData.put("q_mnid", subject.getSubMenus().get(subIndex).getMnid());
+                tableNumData.put("boarditem_no", "");
+                tableNumData.put("board_no", subject.getSubMenus().get(subIndex).getBoard_no());
+                tableNumData.put("boarditem_depth", "");
+                tableNumData.put("mode_ext", "");
+                tableNumData.put("use_file_size", "0");
+                tableNumData.put("category_id", "");
+                tableNumData.put("q_where_type", "BOARDITEM_TITLE");
+                tableNumData.put("q_key", "");
 
-                if (tablerowElements.get(0).childNodeSize() == 1) {
-                    continue;
-                }
+                int boardNum = document.select("div.pagination").get(0).childNodeSize();
+                if (boardNum == 1) {
+                    boardNum = 1;
+                    Document tableDocument = tableResponse.parse();
 
-                for (int tablerowindex = 0; tablerowindex < tablerowElements.size(); tablerowindex++) {
-                    Element tr = tablerowElements.get(tablerowindex);
-                    String id = tr.select("a[name=btn_board_view]").get(0).attr("id");
-                    String title = tr.select("a[name=btn_board_view]").first().ownText();
+                    //System.out.println(tableDocument.toString());
 
-                    tableDataArrayList.add(new TableData(title,
-                            subject.getSubMenus().get(subIndex).getMenuName(),
-                            id,
-                            subjectTitle
-                    ));
+                    String subjectTitle = tableDocument.select("p.list_tit").get(0).ownText();
+
+                    Elements tableElements = tableDocument.select("table.list");
+                    Elements tbodyElements = tableElements.select("tbody");
+                    Elements tablerowElements = tbodyElements.select("tr");
+
+                    if (tablerowElements.get(0).childNodeSize() == 1) {
+                        continue;
+                    }
+
+                    for (int tablerowindex = 0; tablerowindex < tablerowElements.size(); tablerowindex++) {
+                        Element tr = tablerowElements.get(tablerowindex);
+                        String id = tr.select("a[name=btn_board_view]").get(0).attr("id");
+                        String title = tr.select("a[name=btn_board_view]").first().ownText();
+                        tableNumData.put("boarditem_no", id);
+                        tableDataArrayList.add(new TableData(title,
+                                subject.getSubMenus().get(subIndex).getMenuName(),
+                                id,
+                                subjectTitle,
+                                tableNumData
+                        ));
+                    }
+
+                } else {
+                    for (int i = 1; i < boardNum; i++) {
+
+                        tableNumData.put("page", String.valueOf(i));
+
+                        Connection.Response tableNoResponse = Jsoup.connect("http://e-learn.cnu.ac.kr/lms/class/boardItem/doListView.dunet")
+                                .userAgent(userAgent)
+                                .timeout(60000)
+                                .header("Origin", "http://e-learn.cnu.ac.kr")
+                                .header("Referer", "http://e-learn.cnu.ac.kr/main/MainView.dunet")
+                                .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
+                                .header("Content-Type", "application/x-www-form-urlencoded")
+                                .header("Accept-Encoding", "gzip, deflate")
+                                .header("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7")
+                                .data(tableNumData)
+                                .cookies(loginTryCookie)
+                                .method(Connection.Method.POST)
+                                .ignoreContentType(true)
+                                .execute();
+
+                        Document tableDocument = tableNoResponse.parse();
+
+                        //System.out.println(tableDocument.toString());
+
+                        String subjectTitle = tableDocument.select("p.list_tit").get(0).ownText();
+
+                        Elements tableElements = tableDocument.select("table.list");
+                        Elements tbodyElements = tableElements.select("tbody");
+                        Elements tablerowElements = tbodyElements.select("tr");
+
+                        if (tablerowElements.get(0).childNodeSize() == 1) {
+                            continue;
+                        }
+
+                        for (int tablerowindex = 0; tablerowindex < tablerowElements.size(); tablerowindex++) {
+                            Element tr = tablerowElements.get(tablerowindex);
+                            String id = tr.select("a[name=btn_board_view]").get(0).attr("id");
+                            String title = tr.select("a[name=btn_board_view]").first().ownText();
+
+                            Map<String, String> temp = new HashMap<String, String>(tableNumData);
+                            temp.put("boarditem_no", id);
+                            tableDataArrayList.add(new TableData(title,
+                                    subject.getSubMenus().get(subIndex).getMenuName(),
+                                    id,
+                                    subjectTitle,
+                                    tableNumData
+                            ));
+                        }
+                    }
+
+
+                    //Log.d("SubjectSubmenuAsyncTask", subMenuDocument.toString());
+
                 }
 
                 subject.setTableDataArrayList(tableDataArrayList);
