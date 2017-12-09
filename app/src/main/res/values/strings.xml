@@ -1,6 +1,17 @@
 <resources>
     <string name="app_name">Amotion_2017</string>
-    <string-array name="Subject">
-        <item>과목 선택</item>
+    <string-array name="noticeURL">
+        <item>http://computer.cnu.ac.kr/index.php?mid=notice</item>
+        <item>http://computer.cnu.ac.kr/index.php?mid=gnotice</item>
+        <item>http://computer.cnu.ac.kr/index.php?mid=saccord</item>
+        <item>http://computer.cnu.ac.kr/index.php?mid=job</item>
+        <item>http://computer.cnu.ac.kr/index.php?mid=event</item>
+    </string-array>
+    <string-array name="cnuMenu">
+        <item>학사공지</item>
+        <item>일반소식</item>
+        <item>사업단소식</item>
+        <item>취업정보</item>
+        <item>CSE News</item>
     </string-array>
 </resources>
