@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.amotion.amotion_2017.asynctask.BoardItemAsyncTask;
+import com.amotion.amotion_2017.asynctask.CseBoardAsyncTask;
 import com.amotion.amotion_2017.asynctask.CseLoginAsyncTask;
 import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
 import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
@@ -25,6 +26,8 @@ import com.amotion.amotion_2017.asynctask.SubjectSubmenuAsyncTask;
 import com.amotion.amotion_2017.asynctask.TableAsyncTask;
 import com.amotion.amotion_2017.data.AsyncData;
 import com.amotion.amotion_2017.data.BoardItemAsyncData;
+import com.amotion.amotion_2017.data.CseAsyncData;
+import com.amotion.amotion_2017.data.CseBoardItem;
 import com.amotion.amotion_2017.data.Schedule;
 import com.amotion.amotion_2017.data.Subject;
 
@@ -70,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         map.put("pw", "putpw");
 
         try {
+            /*
             loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
             subjects = new SubjectAsyncTask().execute(loginCookie).get();
 
@@ -85,17 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
                 new TableAsyncTask().execute(new TableAsyncData(subjects.get(subjectIndex),loginCookie)).get();
             }
-
-            Map<String, String> cseMap = new HashMap<String, String>();
-            Map<String, String> cseLoginCookie = null;
-
-
-            cseMap.put("id", "putid");
-            cseMap.put("pw", "putpw");
-
-            cseLoginCookie = new CseLoginAsyncTask(getApplicationContext()).execute(cseMap).get();
-
-
             for (Subject s : subjects){
                 Collections.sort(s.getTableDataArrayList());
             }
@@ -103,6 +96,29 @@ public class MainActivity extends AppCompatActivity {
             new BoardItemAsyncTask().execute(new BoardItemAsyncData(loginCookie, subjects.get(0).getTableDataArrayList().get(0))).get();
 
             System.out.println(subjects);
+*/
+            //CSE
+            Map<String, String> cseMap = new HashMap<String, String>();
+            Map<String, String> cseLoginCookie = null;
+
+            cseMap.put("id", "putid");
+            cseMap.put("pw", "putpw");
+
+            cseLoginCookie = new CseLoginAsyncTask(getApplicationContext()).execute(cseMap).get();
+
+            String noticeUrl = "http://computer.cnu.ac.kr/index.php?mid=notice"; //학사공지
+            String gnoticeUrl = "http://computer.cnu.ac.kr/index.php?mid=gnotice";// 일반공지
+            String saccordUrl = "http://computer.cnu.ac.kr/index.php?mid=saccord"; //사업단
+            String jobUrl = "http://computer.cnu.ac.kr/index.php?mid=job"; //취업정보
+            String eventUrl = "http://computer.cnu.ac.kr/index.php?mid=event"; //뉴스
+
+            CseAsyncData cseAsyncData = new CseAsyncData(cseLoginCookie, noticeUrl);
+
+            ArrayList<CseBoardItem> cseBoardItems = new CseBoardAsyncTask().execute(cseAsyncData).get();
+
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
