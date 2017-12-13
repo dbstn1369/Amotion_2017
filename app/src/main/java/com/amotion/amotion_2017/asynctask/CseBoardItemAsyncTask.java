@@ -48,7 +48,7 @@ public class CseBoardItemAsyncTask extends AsyncTask<CseBoardItemAsyncData, Stri
             Document boardDocument = response.parse();
             Element boardElement = boardDocument.select("div.rd_hd").first();
 
-            System.out.println(boardDocument.toString());
+            //System.out.println(boardDocument.toString());
 
             String title = boardElement.select("h1.np_18px").first().text();
             String writer = boardElement.select("div.btm_area").first().select(".side").first().text();
