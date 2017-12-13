@@ -17,6 +17,12 @@ import com.amotion.amotion_2017.fragment.FragmentCnu;
 import com.amotion.amotion_2017.fragment.FragmentSchedule;
 import com.amotion.amotion_2017.fragment.FragmentSubject;
 
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
