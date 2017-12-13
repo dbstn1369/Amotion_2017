@@ -10,6 +10,29 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.amotion.amotion_2017.asynctask.BoardItemAsyncTask;
+import com.amotion.amotion_2017.asynctask.CseBoardAsyncTask;
+import com.amotion.amotion_2017.asynctask.CseBoardItemAsyncTask;
+import com.amotion.amotion_2017.asynctask.CseLoginAsyncTask;
+import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
+import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
+import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
+import com.amotion.amotion_2017.asynctask.SubjectSubmenuAsyncTask;
+import com.amotion.amotion_2017.asynctask.TableAsyncTask;
+import com.amotion.amotion_2017.data.AsyncData;
+import com.amotion.amotion_2017.data.Board;
+import com.amotion.amotion_2017.data.BoardItemAsyncData;
+import com.amotion.amotion_2017.data.CseAsyncData;
+import com.amotion.amotion_2017.data.CseBoardItem;
+import com.amotion.amotion_2017.data.CseBoardItemAsyncData;
+import com.amotion.amotion_2017.data.Schedule;
+import com.amotion.amotion_2017.data.Subject;
+
+import com.amotion.amotion_2017.data.TableAsyncData;
 import com.amotion.amotion_2017.asynctask.CseLoginAsyncTask;
 import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
 
@@ -17,7 +40,7 @@ import com.amotion.amotion_2017.fragment.FragmentCnu;
 import com.amotion.amotion_2017.fragment.FragmentSchedule;
 import com.amotion.amotion_2017.fragment.FragmentSubject;
 
-
+import java.util.ArrayList;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -51,13 +74,15 @@ public class MainActivity extends AppCompatActivity {
         try {
             loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
             cseLoginCookie = new CseLoginAsyncTask(getApplicationContext()).execute(cseMap).get();
+
+            ArrayList<CseBoardItem> cseBoardItems = new CseBoardAsyncTask().execute(new CseAsyncData(loginCookie,"http://computer.cnu.ac.kr/index.php?mid=notice")).get();
+            CseBoardItemAsyncData cseBoardItemAsyncData = new CseBoardItemAsyncData(cseLoginCookie, cseBoardItems.get(0));
+            Board board = new CseBoardItemAsyncTask().execute(cseBoardItemAsyncData).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-
-
 
 
         //slide관련
