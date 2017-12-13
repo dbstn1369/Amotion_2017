@@ -39,7 +39,7 @@ public class FragmentSchedule extends Fragment {
     //내부화면 관리
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView= inflater.inflate(R.layout.fragment_Schedule, null);
+        rootView= inflater.inflate(R.layout.fragment_schedule, null);
         listView=rootView.findViewById(R.id.scheduleList);
         calendarButton=(Button)rootView.findViewById(R.id.buttonCalendar);
 
