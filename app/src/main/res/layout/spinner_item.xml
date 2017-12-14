@@ -4,5 +4,10 @@
     android:layout_height="match_parent"
     android:singleLine="true"
     android:ellipsize="marquee"
+    android:text="테스트"
+    android:padding="10dp"
+    android:paddingLeft="20dp"
+    android:textAlignment="center"
+    android:textSize="18dp"
 
     />
