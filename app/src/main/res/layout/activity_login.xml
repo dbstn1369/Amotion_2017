@@ -5,50 +5,70 @@
     android:layout_height="match_parent"
     tools:context="com.amotion.amotion_2017.MainActivity">
 
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:id="@+id/IDInput"
-        android:layout_centerHorizontal="true"
-        android:hint="ID"
-        android:layout_marginTop="151dp" />
-
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:id="@+id/passwordInput"
-        android:layout_centerHorizontal="true"
-        android:hint="Password"
-        android:layout_below="@+id/IDInput" />
-
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="55dp"
-        android:text="Log in"
-        android:id="@+id/loginButton"
-        android:textAllCaps="false"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/passwordInput"
-        android:layout_toStartOf="@+id/signupButton"
-        android:layout_toLeftOf="@+id/signupButton" />
-
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="55dp"
-        android:text="Sign up"
-        android:id="@+id/signupButton"
-        android:textAllCaps="false"
-        android:layout_alignTop="@+id/loginButton"
-        android:layout_alignEnd="@+id/passwordInput"
-        android:layout_alignRight="@+id/passwordInput" />
-
-    <CheckBox
+    <TextView
+        android:id="@+id/textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Remember login"
-        android:id="@+id/checkBox"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:text="컴퓨터공학과 홈페이지" />
+
+    <EditText
+        android:id="@+id/cse_ID_Input"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/textview"
+        android:layout_centerHorizontal="true"
+        android:hint="ID"
+        android:inputType="text"
+        android:maxLines="1" />
+
+    <EditText
+        android:id="@+id/csePassword"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/cse_ID_Input"
+        android:layout_centerHorizontal="true"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:maxLines="1" />
+
+    <TextView
+        android:id="@+id/textview2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/csePassword"
+        android:layout_centerHorizontal="true"
+        android:text="이러닝" />
+
+    <EditText
+        android:id="@+id/eLearn_ID_Input"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/textview2"
+        android:layout_centerHorizontal="true"
+        android:hint="ID"
+        android:inputType="text"
+        android:maxLines="1" />
+
+    <EditText
+        android:id="@+id/eLearnPassword"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/eLearn_ID_Input"
+        android:layout_centerHorizontal="true"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:maxLines="1" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="150dp"
+        android:layout_height="55dp"
+        android:layout_below="@+id/eLearnPassword"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/loginButton"
-        android:layout_centerHorizontal="true" />
+        android:text="Log in"
+        android:textAllCaps="false" />
 
 </RelativeLayout>
