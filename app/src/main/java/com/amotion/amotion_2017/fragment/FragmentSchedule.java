@@ -94,7 +94,7 @@ public class FragmentSchedule extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                Toast.makeText(getActivity(), "list select", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), "list select", Toast.LENGTH_LONG).show();
             }
         });
         return rootView;

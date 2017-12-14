@@ -7,11 +7,11 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="100dp"
+        android:layout_width="160dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/cnuimage"/>
+        android:layout_marginTop="10dp"
+        android:background="@drawable/cnup_long"/>
 
     <TextView
         android:id="@+id/textview"
