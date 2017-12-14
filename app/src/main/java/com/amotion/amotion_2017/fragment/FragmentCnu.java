@@ -4,6 +4,8 @@ package com.amotion.amotion_2017.fragment;
  * Created by YunDongHyeon on 2017-12-05.
  */
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,16 +27,22 @@ import com.amotion.amotion_2017.asynctask.CseBoardAsyncTask;
 import com.amotion.amotion_2017.data.CseAsyncData;
 import com.amotion.amotion_2017.data.CseBoardItem;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+
 import java.util.ArrayList;
 
 
-public  class FragmentCnu extends Fragment {
-    private static final int BOARDNUMBER=5;
-    ArrayList<CseBoardItem> cseBoardItems[]=new ArrayList[BOARDNUMBER];
+public class FragmentCnu extends Fragment {
+    private static final int BOARDNUMBER = 5;
+    ArrayList<CseBoardItem> cseBoardItems[] = new ArrayList[BOARDNUMBER];
 
     View rootView;
     Spinner cnuSpinner;
     ListView cnuList;
+    DatabaseReference cnuFB;
+    SharedPreferences cnuSP;
 
     public FragmentCnu() {
     }
@@ -44,17 +52,17 @@ public  class FragmentCnu extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_cnu, null);
-        cnuSpinner=(Spinner)rootView.findViewById(R.id.cse_spinner);
-        cnuList=(ListView)rootView.findViewById(R.id.cse_listView);
+        cnuSpinner = (Spinner) rootView.findViewById(R.id.cse_spinner);
+        cnuList = (ListView) rootView.findViewById(R.id.cse_listView);
 
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getActivity(),R.array.cnuMenu,R.layout.spinner_item);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.cnuMenu, R.layout.spinner_item);
         cnuSpinner.setAdapter(spinnerAdapter);
 
         cnuSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                CNUAdapter adapter =new CNUAdapter();
-                for(int i=0;i<cseBoardItems[position].size();i++){
+                CNUAdapter adapter = new CNUAdapter();
+                for (int i = 0; i < cseBoardItems[position].size(); i++) {
                     adapter.addItem(cseBoardItems[position].get(i));
                 }
                 cnuList.setAdapter(adapter);
@@ -75,14 +83,16 @@ public  class FragmentCnu extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getCnu();
+        cnuFB = FirebaseDatabase.getInstance().getReference("CNU");
+        cnuSP = getActivity().getSharedPreferences("cnup_cnu", Context.MODE_PRIVATE);
     }
 
-    public void getCnu(){
+    public void getCnu() {
         try {
             //CSE
-            String[] noticeUrl= getResources().getStringArray(R.array.noticeURL);
+            String[] noticeUrl = getResources().getStringArray(R.array.noticeURL);
 
-            for(int i=0;i<BOARDNUMBER;i++){
+            for (int i = 0; i < BOARDNUMBER; i++) {
                 CseAsyncData cseAsyncData = new CseAsyncData(MainActivity.cseLoginCookie, noticeUrl[i]);
                 cseBoardItems[i] = new CseBoardAsyncTask().execute(cseAsyncData).get();
             }
