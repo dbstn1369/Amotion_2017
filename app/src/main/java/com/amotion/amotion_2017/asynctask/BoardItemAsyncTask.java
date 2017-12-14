@@ -58,7 +58,9 @@ public class BoardItemAsyncTask extends AsyncTask<BoardItemAsyncData,String,Boar
             String title = boardTable.select("#td_boarditem_title").first().ownText();
             String writer = boardTable.select("#td_user_name").first().ownText();
             String writeDate = boardTable.select("#td_f_insert_dt").first().ownText();
-            String text = boardTable.select("#td_boarditem_content").first().ownText();
+            String text = boardTable.select("#td_boarditem_content").first().toString();
+
+            //System.out.println(boardTable.select("#td_boarditem_content").first().ownText());
 
             Elements fileElement = boardTable.select("tr").get(2).select("a");
 

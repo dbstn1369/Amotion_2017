@@ -59,8 +59,7 @@ public class CseBoardAsyncTask extends AsyncTask<CseAsyncData, String, ArrayList
 
         } catch (Exception e) {
             e.printStackTrace();
-        };
-
+        }
 
         return cseBoardItems;
     }

@@ -101,14 +101,15 @@ public class TableAsyncTask extends AsyncTask<TableAsyncData, String, ArrayList<
                         String id = tr.select("a[name=btn_board_view]").get(0).attr("id");
                         String title = tr.select("a[name=btn_board_view]").first().ownText();
                         tableNumData.put("boarditem_no", id);
+                        String date = tr.child(4).ownText();
                         tableDataArrayList.add(new TableData(title,
                                 subject.getSubMenus().get(subIndex).getMenuName(),
                                 id,
                                 subjectTitle,
-                                tableNumData
+                                tableNumData,
+                                date
                         ));
                     }
-
                 } else {
                     for (int i = 1; i < boardNum; i++) {
 
@@ -150,11 +151,13 @@ public class TableAsyncTask extends AsyncTask<TableAsyncData, String, ArrayList<
 
                             Map<String, String> temp = new HashMap<String, String>(tableNumData);
                             temp.put("boarditem_no", id);
+                            String date = tr.child(4).ownText();
                             tableDataArrayList.add(new TableData(title,
                                     subject.getSubMenus().get(subIndex).getMenuName(),
                                     id,
                                     subjectTitle,
-                                    tableNumData
+                                    tableNumData,
+                                    date
                             ));
                         }
                     }

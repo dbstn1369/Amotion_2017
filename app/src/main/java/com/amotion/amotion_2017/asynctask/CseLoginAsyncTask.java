@@ -34,32 +34,33 @@ public class CseLoginAsyncTask extends AsyncTask<Map<String, String>, String, Ma
         try {
             idpw = new JSONObject(loadJSONFromAsset());
 
-            //TODO 아이디 패스워드 입력
             Map<String, String> logindata = new HashMap<>();//로그인하기 위한 data 값들.
-            logindata.put("user_id", idpw.getString("id"));
-            logindata.put("user_password", idpw.getString("pw"));
-            logindata.put("mid","smain");
-            logindata.put("vid","");
+            logindata.put("user_id", maps[0].get("id"));
+            logindata.put("password",maps[0].get("pw"));
             logindata.put("ruleset","@login");
-            logindata.put("success_return_url","");
+            logindata.put("error_return_url","/index.php?mid=int_ugreet");
+            logindata.put("success_return_url","/index.php?mid=int_ugreet");
             logindata.put("act","procMemberLogin");
-            logindata.put("xe_validator_id", "modules/member/skins");
+            logindata.put("xe_validator_id", "widgets/login_info/skins/default/login_form/1");
 
             // 로그인
             Connection.Response loginPageResponse = Jsoup.connect("http://computer.cnu.ac.kr/index.php?act=procMemberLogin")//세션유지를 위한 사이트 연결
                     .timeout(60000)//header 값들은 구글 크롬개발자로 구하면 됩니다.
-                    .header("Origin", "http://computer.cnu.ac.kr/")
-                    .header("Referer", "http://computer.cnu.ac.kr/index.php?act=procMemberLogin")
                     .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
-                    .header("Content-Type", "application/x-www-form-urlencoded")
                     .header("Accept-Encoding", "gzip, deflate, br")
-                    .header("Accept-Language", "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4")
+                    .header("Accept-Language", " ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7")
+                    .header("Cache-Control","max-age=0")
+                    .header("Connection","keep-alive")
+                    .header("Host", "computer.cnu.ac.kr")
+                    .header("Origin", "http://computer.cnu.ac.kr")
+                    .header("Referer", "https://computer.cnu.ac.kr/index.php?act=dispMemberLoginForm")
+                    .header("Upgrade-Insecure-Requests","1")
                     .data(logindata)
                     .method(Connection.Method.POST)
-                    .ignoreContentType(true)
                     .execute();
 
             loginTryCookie = loginPageResponse.cookies();//로그인을 하여 얻은 쿠키 아래에서 사용함.
+
         } catch (Exception e) {
             e.printStackTrace();
         }
