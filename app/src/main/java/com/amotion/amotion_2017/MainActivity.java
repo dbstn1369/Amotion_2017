@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity
     BroadcastReceiver pushReciver;
     SharedPreferences test;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity
 
         try
         {
-            loginCookie = new LoginAsyncTask().execute(map).get();
+            loginCookie = new LoginAsyncTask(MainActivity.this).execute(map).get();
             cseLoginCookie = new CseLoginAsyncTask().execute(cseMap).get();
 
             ArrayList<CseBoardItem> cseBoardItems = new CseBoardAsyncTask().execute(new CseAsyncData(loginCookie, "http://computer.cnu.ac.kr/index.php?mid=notice")).get();
@@ -128,7 +130,7 @@ public class MainActivity extends AppCompatActivity
 
                 try
                 {
-                    loginCookie = new LoginAsyncTask().execute(map).get();
+                    loginCookie = new LoginAsyncTask(this).execute(map).get();
                     cseLoginCookie = new CseLoginAsyncTask().execute(cseMap).get();
 
                     ArrayList<CseBoardItem> cseBoardItems = new CseBoardAsyncTask().execute(new CseAsyncData(loginCookie, "http://computer.cnu.ac.kr/index.php?mid=notice")).get();

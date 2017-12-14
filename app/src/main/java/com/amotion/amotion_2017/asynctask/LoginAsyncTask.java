@@ -1,8 +1,11 @@
 package com.amotion.amotion_2017.asynctask;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+
+import com.amotion.amotion_2017.data.Board;
 
 import org.json.JSONObject;
 import org.jsoup.Connection;
@@ -18,9 +21,34 @@ import java.util.Map;
  */
 
 public class LoginAsyncTask extends AsyncTask<Map<String, String>, String, Map<String, String>> {
+    Context context;
+    ProgressDialog mProgressDialog;
+    public LoginAsyncTask(Context context)
+    {
+        this.context = context;
+    }
+
+    @Override
+    protected void onPreExecute()
+    {
+        mProgressDialog= new ProgressDialog(context);
+        mProgressDialog.setMessage("다운로드 중");
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.show();
+        super.onPreExecute();
+    }
+
+    @Override
+    protected void onPostExecute(Map<String, String> stringStringMap)
+    {
+        mProgressDialog.dismiss();
+        super.onPostExecute(stringStringMap);
+    }
 
     @Override
     protected Map<String, String> doInBackground(Map<String, String>[] maps) {
+
         Map<String, String> loginTryCookie=null;
         try {
 
