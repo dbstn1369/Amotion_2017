@@ -53,7 +53,7 @@ public class ActivityLogin extends AppCompatActivity
         csePW_Input.setText(test.getString("csePW", ""));
         eLearnID_Input.setText(test.getString("eLearnID", ""));
         eLearnPW_Input.setText(test.getString("eLearnPW", ""));
-        
+
         loginButton.setOnClickListener(new View.OnClickListener()
         {
             @Override

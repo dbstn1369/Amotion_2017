@@ -24,8 +24,10 @@ import com.amotion.amotion_2017.data.Schedule;
 import com.amotion.amotion_2017.view.ScheduleView;
 import com.amotion.amotion_2017.data.Subject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class FragmentSchedule extends Fragment {
     private View rootView;
@@ -127,6 +129,8 @@ public class FragmentSchedule extends Fragment {
         public View getView(int position, View converView, ViewGroup viewGroup) {
             ScheduleView view = new ScheduleView(getContext());
             Schedule item = items.get(position);
+
+
             view.setCourse(item.getCourse());
             view.setContent(item.getTitle());
             view.setStartDate(item.getStart());

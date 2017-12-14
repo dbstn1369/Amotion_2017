@@ -175,7 +175,7 @@ public class FragmentSubject extends Fragment {
             TableData item = items.get(position);
             view.setSubject(item.getBoardName().toString());
             view.setTitle(item.getTitle().toString());
-            view.setDate("ww");
+            view.setDate(item.getDate());
             return view;
         }
     }

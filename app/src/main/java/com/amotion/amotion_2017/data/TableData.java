@@ -15,16 +15,18 @@ public class TableData implements Comparable<TableData>
     private String id;
     private String subjectName;
     private Map<String, String> data;
+    private String date;
 
-    public TableData(String title, String boardName, String id, String subjectName, Map<String, String> data)
+
+    public TableData(String title, String boardName, String id, String subjectName, Map<String, String> data, String date)
     {
         this.title = title;
         this.boardName = boardName;
         this.id = id;
         this.subjectName = subjectName;
         this.data = data;
+        this.date = date;
     }
-
 
     public String getTitle()
     {
@@ -76,7 +78,15 @@ public class TableData implements Comparable<TableData>
     {
         this.data = data;
     }
+    public String getDate()
+    {
+        return date;
+    }
 
+    public void setDate(String date)
+    {
+        this.date = date;
+    }
     @Override
     public String toString()
     {
