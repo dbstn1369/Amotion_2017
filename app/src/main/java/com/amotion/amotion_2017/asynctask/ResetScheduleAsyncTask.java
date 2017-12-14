@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class ResetScheduleAsyncTask extends AsyncTask<AsyncData, Void, ArrayList<Schedule>>
     {
-        int returnday;
+        String returnday;
         @Override
         protected ArrayList<Schedule> doInBackground(AsyncData... asyncData)
         {
@@ -38,11 +38,8 @@ public class ResetScheduleAsyncTask extends AsyncTask<AsyncData, Void, ArrayList
             try {
                 String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36";
                 Map<String, String> data = new HashMap<String, String>();
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-                String date = "20161110";
-                        //simpleDateFormat.format(returnday);
-                System.out.println(date);
-                data.put("schedule_dt",date);
+
+                data.put("schedule_dt",returnday);
 
 
 
@@ -89,9 +86,9 @@ public class ResetScheduleAsyncTask extends AsyncTask<AsyncData, Void, ArrayList
             return scheduleArrayList;
         }
 
-        public void returnday(int day){
+        public void returnday(String day){
             returnday = day;
-            System.out.println(returnday);
+
 
         }
 
