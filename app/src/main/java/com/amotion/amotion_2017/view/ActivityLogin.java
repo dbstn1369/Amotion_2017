@@ -96,13 +96,13 @@ public class ActivityLogin extends AppCompatActivity
                     eLearnLogin.put("id", cseID);
                     eLearnLogin.put("pw", csePW);
 
-                    Map<String, String> eLearnLoginCookie = new LoginAsyncTask(ActivityLogin.this).execute(eLearnLogin).get();
+                    Map<String, String> eLearnLoginCookie = new LoginAsyncTask().execute(eLearnLogin).get();
 
                     Map<String, String> cseLogin = new HashMap<>();
                     cseLogin.put("id", cseID);
                     cseLogin.put("pw", csePW);
 
-                    Map<String, String> cseLoginCookie = new CseLoginAsyncTask(ActivityLogin.this).execute(cseLogin).get();
+                    Map<String, String> cseLoginCookie = new CseLoginAsyncTask().execute(cseLogin).get();
 
                     if (eLearnLoginCookie.size()!=2){
                         Toast.makeText(ActivityLogin.this, "이러닝 ID와 PW를 확인해주세요", Toast.LENGTH_LONG).show();
