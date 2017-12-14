@@ -1,6 +1,8 @@
 package com.amotion.amotion_2017;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -12,31 +14,17 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.amotion.amotion_2017.asynctask.BoardItemAsyncTask;
+import com.amotion.amotion_2017.service.PushService;
+import com.amotion.amotion_2017.service.StartService;
 import com.amotion.amotion_2017.asynctask.CseBoardAsyncTask;
 import com.amotion.amotion_2017.asynctask.CseBoardItemAsyncTask;
 import com.amotion.amotion_2017.asynctask.CseLoginAsyncTask;
 import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
-import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
-import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
-import com.amotion.amotion_2017.asynctask.SubjectSubmenuAsyncTask;
-import com.amotion.amotion_2017.asynctask.TableAsyncTask;
-import com.amotion.amotion_2017.data.AsyncData;
 import com.amotion.amotion_2017.data.Board;
-import com.amotion.amotion_2017.data.BoardItemAsyncData;
 import com.amotion.amotion_2017.data.CseAsyncData;
 import com.amotion.amotion_2017.data.CseBoardItem;
 import com.amotion.amotion_2017.data.CseBoardItemAsyncData;
-import com.amotion.amotion_2017.data.Schedule;
-import com.amotion.amotion_2017.data.Subject;
-
-import com.amotion.amotion_2017.data.TableAsyncData;
-import com.amotion.amotion_2017.asynctask.CseLoginAsyncTask;
-import com.amotion.amotion_2017.asynctask.LoginAsyncTask;
 
 import com.amotion.amotion_2017.fragment.FragmentCnu;
 import com.amotion.amotion_2017.fragment.FragmentSchedule;
@@ -44,11 +32,6 @@ import com.amotion.amotion_2017.fragment.FragmentSubject;
 import com.amotion.amotion_2017.view.ActivityLogin;
 
 import java.util.ArrayList;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.Collections;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,6 +43,7 @@ public class MainActivity extends AppCompatActivity
     private ViewPager mViewPager;
     public static Map<String, String> loginCookie = null;
     public static Map<String, String> cseLoginCookie = null;
+    BroadcastReceiver pushReciver;
     SharedPreferences test;
 
     @Override
@@ -111,6 +95,21 @@ public class MainActivity extends AppCompatActivity
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         //slide끝
+
+
+        Intent intentMyService = new Intent(this, PushService.class);
+        pushReciver = new StartService();
+        try
+        {
+            IntentFilter mainFilter = new IntentFilter("com.amotion.amotion_2017");
+            // 리시버 저장
+            registerReceiver(pushReciver, mainFilter);
+            // 서비스 시작
+            startService(intentMyService);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -243,6 +242,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     //추후 클래스로 분리할것
+
 
 
 }

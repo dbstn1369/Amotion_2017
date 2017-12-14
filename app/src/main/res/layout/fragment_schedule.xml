@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -32,8 +31,8 @@
                 android:id="@+id/calendarset"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:textColor="#090909"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:textColor="#090909" />
 
 
             <ListView
@@ -42,14 +41,6 @@
                 android:layout_height="match_parent">
 
             </ListView>
-
-
         </LinearLayout>
     </RelativeLayout>
-
-
 </LinearLayout>
-
-
-
-
