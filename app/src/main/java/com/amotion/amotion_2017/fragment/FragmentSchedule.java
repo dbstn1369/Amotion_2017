@@ -7,10 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.amotion.amotion_2017.MainActivity;
 import com.amotion.amotion_2017.R;
@@ -62,6 +64,15 @@ public class FragmentSchedule extends Fragment {
                 adapter.addItem(scheduleArrayList.get(i));
             }
         }
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                Toast.makeText(getActivity(), "list select", Toast.LENGTH_LONG).show();
+            }
+        });
         return rootView;
     }
 
@@ -81,7 +92,6 @@ public class FragmentSchedule extends Fragment {
             subjects = new SubjectAsyncTask().execute(MainActivity.loginCookie).get();
             asyncData = new AsyncData(MainActivity.loginCookie, subjects);
             //System.out.println(subjects);
-            //TODO 스케쥴 들임
             scheduleArrayList = new ScheduleAsyncTask().execute(asyncData).get();
         } catch (Exception e) {
             e.printStackTrace();
@@ -147,8 +157,6 @@ public class FragmentSchedule extends Fragment {
                 subjects = new SubjectAsyncTask().execute(MainActivity.loginCookie).get();
 
                 asyncData = new AsyncData(MainActivity.loginCookie, subjects);
-
-                //TODO 스케쥴 들임
                 scheduleArrayList = new ResetScheduleAsyncTask().execute(asyncData).get();
                 System.out.println(scheduleArrayList);
             } catch (Exception e) {

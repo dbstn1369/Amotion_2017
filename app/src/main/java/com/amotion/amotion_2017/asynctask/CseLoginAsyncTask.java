@@ -34,7 +34,6 @@ public class CseLoginAsyncTask extends AsyncTask<Map<String, String>, String, Ma
         try {
             idpw = new JSONObject(loadJSONFromAsset());
 
-            //TODO 아이디 패스워드 입력
             Map<String, String> logindata = new HashMap<>();//로그인하기 위한 data 값들.
             logindata.put("user_id", idpw.getString("id"));
             logindata.put("password", idpw.getString("pw"));
