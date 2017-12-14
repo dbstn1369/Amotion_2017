@@ -1,5 +1,6 @@
 package com.amotion.amotion_2017.fragment;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.amotion.amotion_2017.MainActivity;
 import com.amotion.amotion_2017.R;
@@ -43,7 +46,9 @@ public class FragmentSubject extends Fragment {
     static ArrayList<Schedule> scheduleArrayList = new ArrayList<>();
 
 
+
     public FragmentSubject() {
+
     }
 
 
@@ -54,6 +59,7 @@ public class FragmentSubject extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_subject, null);
         subjectSpinner = (Spinner) rootView.findViewById(R.id.subject_spinner);
         subjectList = (ListView) rootView.findViewById(R.id.subject_List);
+
 
         String list[] = new String[subjects.size() + 1];
         list[0] = "과목 선택";
@@ -86,6 +92,7 @@ public class FragmentSubject extends Fragment {
                 for (int i = 0; i < itmes.size(); i++) {
                     subjectAdapter.addItem(itmes.get(i));
                 }
+
                 subjectAdapter.notifyDataSetChanged();
             }
 

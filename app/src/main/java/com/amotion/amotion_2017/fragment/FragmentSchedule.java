@@ -1,16 +1,21 @@
 package com.amotion.amotion_2017.fragment;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amotion.amotion_2017.MainActivity;
 import com.amotion.amotion_2017.R;
@@ -22,8 +27,12 @@ import com.amotion.amotion_2017.data.Schedule;
 import com.amotion.amotion_2017.View.ScheduleView;
 import com.amotion.amotion_2017.data.Subject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class FragmentSchedule extends Fragment {
     private View rootView;
@@ -31,6 +40,7 @@ public class FragmentSchedule extends Fragment {
     private ScheduleAdapter adapter;
     private ListView listView;
     private Button calendarButton;
+    private TextView calendarset;
 
     public FragmentSchedule() {
     }
@@ -39,9 +49,10 @@ public class FragmentSchedule extends Fragment {
     //내부화면 관리
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView= inflater.inflate(R.layout.fragment_schedule, null);
-        listView=rootView.findViewById(R.id.scheduleList);
-        calendarButton=(Button)rootView.findViewById(R.id.buttonCalendar);
+        rootView = inflater.inflate(R.layout.fragment_schedule, null);
+        listView = rootView.findViewById(R.id.scheduleList);
+        calendarButton = (Button) rootView.findViewById(R.id.buttonCalendar);
+        calendarset = (TextView) rootView.findViewById(R.id.calendarset);
 
 
         calendarButton.setOnClickListener(new View.OnClickListener() {
@@ -57,24 +68,37 @@ public class FragmentSchedule extends Fragment {
         });
 
         listView.setAdapter(adapter);
-        if(adapter.getCount()==0){
-            for(int i=0;i<scheduleArrayList.size();i++){
+        if (adapter.getCount() == 0) {
+            for (int i = 0; i < scheduleArrayList.size(); i++) {
                 adapter.addItem(scheduleArrayList.get(i));
             }
         }
+
+/*
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Toast.makeText(activity,
+                        "ddd : ",
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
+        */
         return rootView;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(!getAssignmentList()){
+        if (!getAssignmentList()) {
             System.out.print("로드 실패");
         }
         adapter = new ScheduleAdapter();
     }
 
-    boolean getAssignmentList(){
+    boolean getAssignmentList() {
         ArrayList<Subject> subjects = null;
         AsyncData asyncData;
         try {
@@ -113,6 +137,10 @@ public class FragmentSchedule extends Fragment {
             return position;
         }
 
+        public  void resetItem(){
+            items.clear();
+        }
+
         @Override
         public View getView(int position, View converView, ViewGroup viewGroup) {
             ScheduleView view = new ScheduleView(getContext());
@@ -129,28 +157,38 @@ public class FragmentSchedule extends Fragment {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            ArrayList<Schedule> scheduleArrayList = new ArrayList<>();
-
-
+            ArrayList<Schedule> RescheduleArrayList = new ArrayList<>();
             ArrayList<Subject> subjects = null;
             AsyncData asyncData;
 
-            int day =  20170704;
+
+            Date date = new Date((year - 1900), monthOfYear, dayOfMonth);
+
+            calendarset.setText(year + "년 " + (monthOfYear + 1) + "월 " + dayOfMonth + "일");
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
+            String datestring = simpleDateFormat.format(date);
 
 
-            calendarButton.setText(year + "년 " + (monthOfYear + 1) + "월 " + dayOfMonth + "일");
             ResetScheduleAsyncTask resetschedule = new ResetScheduleAsyncTask();
-            resetschedule.returnday(day);
-
+            resetschedule.returnday(datestring);
 
             try {
+
                 subjects = new SubjectAsyncTask().execute(MainActivity.loginCookie).get();
 
                 asyncData = new AsyncData(MainActivity.loginCookie, subjects);
 
                 //TODO 스케쥴 들임
-                scheduleArrayList = new ResetScheduleAsyncTask().execute(asyncData).get();
-                System.out.println(scheduleArrayList);
+                RescheduleArrayList = resetschedule.execute(asyncData).get();
+                System.out.println(RescheduleArrayList);
+                adapter.resetItem();
+                listView.setAdapter(adapter);
+                if (adapter.getCount() == 0) {
+                    for (int i = 0; i < RescheduleArrayList.size(); i++) {
+                        adapter.addItem(RescheduleArrayList.get(i));
+                    }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
