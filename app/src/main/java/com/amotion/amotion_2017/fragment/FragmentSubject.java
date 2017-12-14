@@ -55,7 +55,7 @@ public class FragmentSubject extends Fragment {
     private SubjectAdapter subjectAdapter;
     static ArrayList<Schedule> scheduleArrayList = new ArrayList<>();
 
-    private int subjectIndex=0;
+    private int subjectIndex=1;
     DatabaseReference subjectFB;
     SharedPreferences subjectSP;
 
@@ -141,8 +141,11 @@ public class FragmentSubject extends Fragment {
             {
                 try
                 {
+                    BoardItemAsyncData boardItemAsyncData = new BoardItemAsyncData(MainActivity.loginCookie, subjects.get(subjectIndex).getTableDataArrayList().get(position));
+                    System.out.println("test "+boardItemAsyncData);
                     //TODO
-                    Board board = new BoardItemAsyncTask().execute(new BoardItemAsyncData(MainActivity.loginCookie, subjects.get(subjectIndex).getTableDataArrayList().get(position)) ).get();
+                    Board board = new BoardItemAsyncTask().execute(boardItemAsyncData ).get();
+                    System.out.println(board);
                     Intent intent = new Intent(getContext(), BoardActivity.class);
                     intent.putExtra("Board", board);
 

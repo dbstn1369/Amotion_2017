@@ -5,6 +5,7 @@ package com.amotion.amotion_2017.fragment;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.amotion.amotion_2017.BoardActivity;
 import com.amotion.amotion_2017.MainActivity;
 import com.amotion.amotion_2017.R;
 
@@ -22,6 +24,11 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.amotion.amotion_2017.asynctask.BoardItemAsyncTask;
+import com.amotion.amotion_2017.asynctask.CseBoardItemAsyncTask;
+import com.amotion.amotion_2017.data.Board;
+import com.amotion.amotion_2017.data.BoardItemAsyncData;
+import com.amotion.amotion_2017.data.CseBoardItemAsyncData;
 import com.amotion.amotion_2017.view.SubjectView;
 import com.amotion.amotion_2017.asynctask.CseBoardAsyncTask;
 import com.amotion.amotion_2017.data.CseAsyncData;
@@ -41,6 +48,8 @@ public class FragmentCnu extends Fragment {
     View rootView;
     Spinner cnuSpinner;
     ListView cnuList;
+
+    int cseIndex=1;
 
     DatabaseReference cnuFB;
     SharedPreferences cnuSP;
@@ -66,12 +75,37 @@ public class FragmentCnu extends Fragment {
                 for (int i = 0; i < cseBoardItems[position].size(); i++) {
                     adapter.addItem(cseBoardItems[position].get(i));
                 }
+                cseIndex= position;
                 cnuList.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        cnuList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                try
+                {
+                    CseBoardItemAsyncData cseBoardItemAsyncData = new CseBoardItemAsyncData(MainActivity.cseLoginCookie, cseBoardItems[cseIndex].get(position));
+                    System.out.println("test "+cseBoardItemAsyncData);
+                    //TODO
+                    Board board = new CseBoardItemAsyncTask().execute(cseBoardItemAsyncData ).get();
+                    Intent intent = new Intent(getContext(), BoardActivity.class);
+                    intent.putExtra("Board", board);
+
+                    startActivityForResult(intent, 101);
+
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
 
             }
         });
@@ -86,6 +120,8 @@ public class FragmentCnu extends Fragment {
         cnuFB = FirebaseDatabase.getInstance().getReference("CNU");
         cnuSP = getActivity().getSharedPreferences("cnup_cnu", Context.MODE_PRIVATE);
         getCnu();
+
+
     }
 
     public void getCnu() {

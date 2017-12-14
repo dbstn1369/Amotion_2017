@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity
         tabLayout.setupWithViewPager(mViewPager);
         //slide끝
 
-
         Intent intentMyService = new Intent(this, PushService.class);
         pushReciver = new StartService();
         try

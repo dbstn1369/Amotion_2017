@@ -20,10 +20,12 @@ public class BoardActivity extends AppCompatActivity
         try
         {
             board = (Board) getIntent().getExtras().get("Board");
+            System.out.println("test "+board.toString());
         }catch (Exception e)
         {
             e.printStackTrace();
         }
+
         TextView title = (TextView)findViewById(R.id.subject);
         TextView writer = (TextView)findViewById(R.id.writer);
         TextView writeDate = (TextView)findViewById(R.id.date);
@@ -33,13 +35,14 @@ public class BoardActivity extends AppCompatActivity
 
         text.setWebViewClient(new WebViewClient());
 
+        System.out.println("test "+board.toString());
+
         title.setText(board.getTitle());
         writer.setText(board.getWriter());
         writeDate.setText(board.getWriteDate());
         isFile.setText(board.isFile()?"파일있음":"파일없음");
 
         text.loadData(board.getText(),"text/html; charset=UTF-8", null);
-
-
     }
+
 }
