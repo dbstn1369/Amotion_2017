@@ -22,12 +22,14 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.amotion.amotion_2017.View.SubjectView;
+import com.amotion.amotion_2017.view.SubjectView;
 import com.amotion.amotion_2017.asynctask.CseBoardAsyncTask;
 import com.amotion.amotion_2017.data.CseAsyncData;
 import com.amotion.amotion_2017.data.CseBoardItem;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 
 import java.util.ArrayList;
 

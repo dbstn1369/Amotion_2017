@@ -7,10 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.amotion.amotion_2017.MainActivity;
 import com.amotion.amotion_2017.R;
@@ -19,11 +21,13 @@ import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
 import com.amotion.amotion_2017.data.AsyncData;
 import com.amotion.amotion_2017.data.Schedule;
-import com.amotion.amotion_2017.View.ScheduleView;
+import com.amotion.amotion_2017.view.ScheduleView;
 import com.amotion.amotion_2017.data.Subject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class FragmentSchedule extends Fragment {
     private View rootView;
@@ -62,6 +66,15 @@ public class FragmentSchedule extends Fragment {
                 adapter.addItem(scheduleArrayList.get(i));
             }
         }
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                Toast.makeText(getActivity(), "list select", Toast.LENGTH_LONG).show();
+            }
+        });
         return rootView;
     }
 
@@ -81,7 +94,6 @@ public class FragmentSchedule extends Fragment {
             subjects = new SubjectAsyncTask().execute(MainActivity.loginCookie).get();
             asyncData = new AsyncData(MainActivity.loginCookie, subjects);
             //System.out.println(subjects);
-            //TODO 스케쥴 들임
             scheduleArrayList = new ScheduleAsyncTask().execute(asyncData).get();
         } catch (Exception e) {
             e.printStackTrace();
@@ -117,6 +129,8 @@ public class FragmentSchedule extends Fragment {
         public View getView(int position, View converView, ViewGroup viewGroup) {
             ScheduleView view = new ScheduleView(getContext());
             Schedule item = items.get(position);
+
+
             view.setCourse(item.getCourse());
             view.setContent(item.getTitle());
             view.setStartDate(item.getStart());
@@ -147,8 +161,6 @@ public class FragmentSchedule extends Fragment {
                 subjects = new SubjectAsyncTask().execute(MainActivity.loginCookie).get();
 
                 asyncData = new AsyncData(MainActivity.loginCookie, subjects);
-
-                //TODO 스케쥴 들임
                 scheduleArrayList = new ResetScheduleAsyncTask().execute(asyncData).get();
                 System.out.println(scheduleArrayList);
             } catch (Exception e) {
