@@ -83,8 +83,8 @@ public class MainActivity extends AppCompatActivity
 
         try
         {
-            loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
-            cseLoginCookie = new CseLoginAsyncTask(getApplicationContext()).execute(cseMap).get();
+            loginCookie = new LoginAsyncTask().execute(map).get();
+            cseLoginCookie = new CseLoginAsyncTask().execute(cseMap).get();
 
             ArrayList<CseBoardItem> cseBoardItems = new CseBoardAsyncTask().execute(new CseAsyncData(loginCookie, "http://computer.cnu.ac.kr/index.php?mid=notice")).get();
             CseBoardItemAsyncData cseBoardItemAsyncData = new CseBoardItemAsyncData(cseLoginCookie, cseBoardItems.get(0));
@@ -130,8 +130,8 @@ public class MainActivity extends AppCompatActivity
 
                 try
                 {
-                    loginCookie = new LoginAsyncTask(getApplicationContext()).execute(map).get();
-                    cseLoginCookie = new CseLoginAsyncTask(getApplicationContext()).execute(cseMap).get();
+                    loginCookie = new LoginAsyncTask().execute(map).get();
+                    cseLoginCookie = new CseLoginAsyncTask().execute(cseMap).get();
 
                     ArrayList<CseBoardItem> cseBoardItems = new CseBoardAsyncTask().execute(new CseAsyncData(loginCookie, "http://computer.cnu.ac.kr/index.php?mid=notice")).get();
                     CseBoardItemAsyncData cseBoardItemAsyncData = new CseBoardItemAsyncData(cseLoginCookie, cseBoardItems.get(0));
