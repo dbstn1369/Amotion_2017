@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.amotion.amotion_2017.MainActivity;
 import com.amotion.amotion_2017.R;
@@ -64,12 +62,14 @@ public class FragmentSubject extends Fragment {
 
         String list[] = new String[subjects.size() + 1];
         list[0] = "과목 선택";
+
+
         for (int i = 1; i <= subjects.size(); i++) {
-            list[i] = subjects.get(i - 1).getSubjectName();
+            list[i] = subjects.get(i-1).getSubjectName().split(" ")[0]+subjects.get(i-1).getClass_no();
+            SharedPreferences.Editor editor = subjectSP.edit();
+            editor.putString("MYSUBJECT"+i,list[i]);
+            editor.commit();
         }
-
-
-
 
         ArrayAdapter<CharSequence> spinnerAdapter = new ArrayAdapter<CharSequence>(getActivity(), R.layout.spinner_item, list);
         subjectSpinner.setAdapter(spinnerAdapter);
@@ -98,8 +98,6 @@ public class FragmentSubject extends Fragment {
                 //최신글의id를 저장하며 최신글일수록 숫자가 크다.
                 String curseId=subjects.get(position-1).getSubjectName().split(" ")[0]+subjects.get(position-1).getClass_no();
                 String recentpostId=subjects.get(position-1).getTableDataArrayList().get(0).getId();
-
-                System.out.println(curseId);
 
                 subjectFB.child(curseId).setValue(recentpostId);
 

@@ -19,6 +19,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".View.ActivityLogin"></activity>
+
+        <receiver
+            android:name=".Service.StartService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <service
+            android:name=".Service.PushService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

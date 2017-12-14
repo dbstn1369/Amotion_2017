@@ -39,6 +39,7 @@ public class FragmentCnu extends Fragment {
     View rootView;
     Spinner cnuSpinner;
     ListView cnuList;
+
     DatabaseReference cnuFB;
     SharedPreferences cnuSP;
 
@@ -80,21 +81,33 @@ public class FragmentCnu extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getCnu();
         cnuFB = FirebaseDatabase.getInstance().getReference("CNU");
         cnuSP = getActivity().getSharedPreferences("cnup_cnu", Context.MODE_PRIVATE);
+        getCnu();
     }
 
     public void getCnu() {
+        String[] menuName = getResources().getStringArray(R.array.cnuMenu);
+
+        final String[] beforeNum = new String[1];
+
         try {
             //CSE
             String[] noticeUrl = getResources().getStringArray(R.array.noticeURL);
-
             for (int i = 0; i < BOARDNUMBER; i++) {
                 CseAsyncData cseAsyncData = new CseAsyncData(MainActivity.cseLoginCookie, noticeUrl[i]);
                 cseBoardItems[i] = new CseBoardAsyncTask().execute(cseAsyncData).get();
-            }
+                int j = 0;
+                while (cseBoardItems[i].get(j).getNumber().equals("공지")){
+                   j++;
+                }
 
+                cnuFB.child(menuName[i]).setValue(cseBoardItems[i].get(j).getNumber());
+
+                SharedPreferences.Editor editor=cnuSP.edit();
+                editor.putString(menuName[i],cseBoardItems[i].get(j).getNumber());
+                editor.commit();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -8,8 +8,6 @@ import android.widget.TextView;
 
 import com.amotion.amotion_2017.R;
 
-import java.util.Date;
-
 /**
  * Created by YunDongHyeon on 2017-12-09.
  */
