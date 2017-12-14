@@ -53,10 +53,13 @@ public class CseBoardItemAsyncTask extends AsyncTask<CseBoardItemAsyncData, Stri
             String title = boardElement.select("h1.np_18px").first().text();
             String writer = boardElement.select("div.btm_area").first().select(".side").first().text();
             String writeDate =boardElement.select("span.date").first().text();
-            String text =boardElement.select("div.xe_content").first().text();
+            String text =boardElement.select("div.xe_content").first().toString();
             boolean isFile = false;
 
+            //System.out.println(boardElement.select("div.xe_content").first().text());
+
             Elements fileElement = boardElement.select(".btm_area").first().select("ul");
+
 
             if (!fileElement.isEmpty()){
                 isFile=true;

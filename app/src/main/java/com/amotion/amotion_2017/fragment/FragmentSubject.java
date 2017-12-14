@@ -1,7 +1,11 @@
 package com.amotion.amotion_2017.fragment;
 
+import android.graphics.drawable.Drawable;
+import android.content.Intent;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,16 +15,21 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.amotion.amotion_2017.BoardActivity;
 import com.amotion.amotion_2017.MainActivity;
 import com.amotion.amotion_2017.R;
-import com.amotion.amotion_2017.View.SubjectView;
+import com.amotion.amotion_2017.view.SubjectView;
+import com.amotion.amotion_2017.asynctask.BoardItemAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectSubmenuAsyncTask;
 import com.amotion.amotion_2017.asynctask.TableAsyncTask;
 import com.amotion.amotion_2017.data.AsyncData;
+import com.amotion.amotion_2017.data.Board;
+import com.amotion.amotion_2017.data.BoardItemAsyncData;
 import com.amotion.amotion_2017.data.Schedule;
 import com.amotion.amotion_2017.data.Subject;
 import com.amotion.amotion_2017.data.TableAsyncData;
@@ -45,10 +54,14 @@ public class FragmentSubject extends Fragment {
     ArrayList<Subject> subjects = null;
     private SubjectAdapter subjectAdapter;
     static ArrayList<Schedule> scheduleArrayList = new ArrayList<>();
+
+    private int subjectIndex=0;
     DatabaseReference subjectFB;
     SharedPreferences subjectSP;
 
+
     public FragmentSubject() {
+
     }
 
 
@@ -59,6 +72,7 @@ public class FragmentSubject extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_subject, null);
         subjectSpinner = (Spinner) rootView.findViewById(R.id.subject_spinner);
         subjectList = (ListView) rootView.findViewById(R.id.subject_List);
+
 
         String list[] = new String[subjects.size() + 1];
         list[0] = "과목 선택";
@@ -80,6 +94,7 @@ public class FragmentSubject extends Fragment {
 
                 subjectAdapter = new SubjectAdapter();
                 subjectList.setAdapter(subjectAdapter);
+                subjectIndex = position-1;
 
                 if (position == 0)
                     return;
@@ -87,6 +102,7 @@ public class FragmentSubject extends Fragment {
                     if (subjects.get(position - 1).getTableDataArrayList() == null) {
                         new TableAsyncTask().execute(new TableAsyncData(subjects.get(position - 1), MainActivity.loginCookie)).get();
                         Collections.sort(subjects.get(position - 1).getTableDataArrayList());
+
                     }
                 } catch (Exception e) {
                     System.out.print("error");
@@ -108,11 +124,34 @@ public class FragmentSubject extends Fragment {
                 for (int i = 0; i < itmes.size(); i++) {
                     subjectAdapter.addItem(itmes.get(i));
                 }
+
                 subjectAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        subjectList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                try
+                {
+                    //TODO
+                    Board board = new BoardItemAsyncTask().execute(new BoardItemAsyncData(MainActivity.loginCookie, subjects.get(subjectIndex).getTableDataArrayList().get(position)) ).get();
+                    Intent intent = new Intent(getContext(), BoardActivity.class);
+                    intent.putExtra("Board", board);
+
+                    startActivityForResult(intent, 101);
+
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
 
             }
         });
@@ -134,6 +173,8 @@ public class FragmentSubject extends Fragment {
             subjects = new SubjectAsyncTask().execute(MainActivity.loginCookie).get();
             asyncData = new AsyncData(MainActivity.loginCookie, subjects);
             subjects = new SubjectSubmenuAsyncTask().execute(asyncData).get();
+
+
             //System.out.println(subjects);
         } catch (Exception e) {
             e.printStackTrace();
@@ -168,7 +209,7 @@ public class FragmentSubject extends Fragment {
             TableData item = items.get(position);
             view.setSubject(item.getBoardName().toString());
             view.setTitle(item.getTitle().toString());
-            view.setDate("ww");
+            view.setDate(item.getDate());
             return view;
         }
     }

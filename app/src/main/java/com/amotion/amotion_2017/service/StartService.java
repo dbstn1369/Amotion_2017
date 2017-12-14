@@ -1,4 +1,4 @@
-package com.amotion.amotion_2017.Service;
+package com.amotion.amotion_2017.service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

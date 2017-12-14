@@ -18,25 +18,15 @@ import java.util.Map;
  */
 
 public class LoginAsyncTask extends AsyncTask<Map<String, String>, String, Map<String, String>> {
-    @SuppressLint("StaticFieldLeak")
-    private static Context context;
-
-    public LoginAsyncTask(Context context) {
-        LoginAsyncTask.context = context;
-    }
-
 
     @Override
     protected Map<String, String> doInBackground(Map<String, String>[] maps) {
         Map<String, String> loginTryCookie=null;
         try {
-            JSONObject idpw = new JSONObject(loadJSONFromAsset());
 
-            publishProgress();
-            //TODO 아이디 패스워드 입력
             Map<String, String> logindata = new HashMap<>();//로그인하기 위한 data 값들.
-            logindata.put("user_id", idpw.getString("id"));
-            logindata.put("user_password", idpw.getString("pw"));
+            logindata.put("user_id", maps[0].get("id"));
+            logindata.put("user_password", maps[0].get("pw"));
             logindata.put("group_cd", "UN");
             logindata.put("sub_group_cd", "");
             //logindata.put("sso_url", "http://portal.cnu.ac.kr/enview/portal/");
@@ -65,22 +55,4 @@ public class LoginAsyncTask extends AsyncTask<Map<String, String>, String, Map<S
         return loginTryCookie;
     }
 
-    private String loadJSONFromAsset() {
-        String json = null;
-        try {
-
-            InputStream is = context.getAssets().open("idpw.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-
-    }
 }
