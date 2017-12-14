@@ -30,11 +30,11 @@ public class LoginAsyncTask extends AsyncTask<Map<String, String>, String, Map<S
     protected Map<String, String> doInBackground(Map<String, String>[] maps) {
         Map<String, String> loginTryCookie=null;
         try {
-            JSONObject idpw = new JSONObject(loadJSONFromAsset());
+            //JSONObject idpw = new JSONObject(loadJSONFromAsset());
 
             Map<String, String> logindata = new HashMap<>();//로그인하기 위한 data 값들.
-            logindata.put("user_id", idpw.getString("id"));
-            logindata.put("user_password", idpw.getString("pw"));
+            logindata.put("user_id", maps[0].get("id"));
+            logindata.put("user_password", maps[0].get("pw"));
             logindata.put("group_cd", "UN");
             logindata.put("sub_group_cd", "");
             //logindata.put("sso_url", "http://portal.cnu.ac.kr/enview/portal/");

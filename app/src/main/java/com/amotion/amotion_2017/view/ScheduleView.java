@@ -1,4 +1,4 @@
-package com.amotion.amotion_2017.View;
+package com.amotion.amotion_2017.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -16,7 +16,7 @@ import android.widget.Spinner;
 import com.amotion.amotion_2017.BoardActivity;
 import com.amotion.amotion_2017.MainActivity;
 import com.amotion.amotion_2017.R;
-import com.amotion.amotion_2017.View.SubjectView;
+import com.amotion.amotion_2017.view.SubjectView;
 import com.amotion.amotion_2017.asynctask.BoardItemAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectSubmenuAsyncTask;

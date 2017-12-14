@@ -21,7 +21,7 @@ import com.amotion.amotion_2017.asynctask.ScheduleAsyncTask;
 import com.amotion.amotion_2017.asynctask.SubjectAsyncTask;
 import com.amotion.amotion_2017.data.AsyncData;
 import com.amotion.amotion_2017.data.Schedule;
-import com.amotion.amotion_2017.View.ScheduleView;
+import com.amotion.amotion_2017.view.ScheduleView;
 import com.amotion.amotion_2017.data.Subject;
 
 import java.util.ArrayList;
