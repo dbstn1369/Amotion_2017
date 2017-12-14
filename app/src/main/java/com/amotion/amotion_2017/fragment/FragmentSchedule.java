@@ -156,11 +156,9 @@ public class FragmentSchedule extends Fragment {
             ScheduleView view = new ScheduleView(getContext());
             Schedule item = items.get(position);
 
-
             view.setCourse(item.getCourse());
             view.setContent(item.getTitle());
-            view.setStartDate(item.getStart());
-            view.setEndDate(item.getEnd());
+            view.setStartDate(item.getStart(), item.getEnd());
             return view;
         }
     }

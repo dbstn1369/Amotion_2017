@@ -5,13 +5,23 @@
     android:layout_height="match_parent"
     tools:context="com.amotion.amotion_2017.MainActivity">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/cnuimage"/>
+
     <TextView
         android:id="@+id/textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:text="컴퓨터공학과 홈페이지" />
+        android:text="컴퓨터공학과 홈페이지"
+        android:textSize="18dp" />
 
     <EditText
         android:id="@+id/cse_ID_Input"
@@ -39,7 +49,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/csePassword"
         android:layout_centerHorizontal="true"
-        android:text="이러닝" />
+        android:text="이러닝"
+        android:textSize="18dp" />
 
     <EditText
         android:id="@+id/eLearn_ID_Input"

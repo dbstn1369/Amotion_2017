@@ -45,6 +45,7 @@ public class SubjectView extends LinearLayout {
     }
 
     public void setDate(String date) {
+
         this.date.setText(date);
     }
 }

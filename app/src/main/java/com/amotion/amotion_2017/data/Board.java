@@ -115,4 +115,16 @@ public class Board implements Parcelable
         dest.writeString(text);
         dest.writeInt(isFile?1:0);
     }
+
+    @Override
+    public String toString()
+    {
+        return "Board{" +
+                "title='" + title + '\'' +
+                ", writer='" + writer + '\'' +
+                ", writeDate='" + writeDate + '\'' +
+                ", text='" + text + '\'' +
+                ", isFile=" + isFile +
+                '}';
+    }
 }

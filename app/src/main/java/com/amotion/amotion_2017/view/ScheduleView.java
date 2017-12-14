@@ -21,7 +21,7 @@ public class ScheduleView extends LinearLayout
     private TextView course;
     private TextView content;
     private TextView startDate;
-    private TextView endDate;
+
 
     public ScheduleView(Context context)
     {
@@ -43,7 +43,6 @@ public class ScheduleView extends LinearLayout
         course = (TextView) findViewById(R.id.schedule_course);
         content = (TextView) findViewById(R.id.schedule_content);
         startDate = (TextView) findViewById(R.id.schedule_startDate);
-        endDate = (TextView) findViewById(R.id.schedule_endDate);
     }
 
     public void setCourse(String course)
@@ -56,16 +55,9 @@ public class ScheduleView extends LinearLayout
         this.content.setText(content);
     }
 
-    public void setStartDate(Date startDate)
+    public void setStartDate(Date startDate, Date endDate)
     {
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM월 dd일\nHH시 mm분", Locale.KOREA);
-        this.startDate.setText(simpleDateFormat.format(startDate));
-    }
-
-    public void setEndDate(Date endDate)
-    {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM월 dd일\nHH시 mm분", Locale.KOREA);
-        this.endDate.setText(simpleDateFormat.format(endDate));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM.dd HH:mm", Locale.KOREA);
+        this.startDate.setText(simpleDateFormat.format(startDate)+" ~ "+simpleDateFormat.format(endDate));
     }
 }
