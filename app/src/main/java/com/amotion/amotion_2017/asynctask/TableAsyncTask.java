@@ -156,7 +156,7 @@ public class TableAsyncTask extends AsyncTask<TableAsyncData, String, ArrayList<
                                     subject.getSubMenus().get(subIndex).getMenuName(),
                                     id,
                                     subjectTitle,
-                                    tableNumData,
+                                    temp,
                                     date
                             ));
                         }
