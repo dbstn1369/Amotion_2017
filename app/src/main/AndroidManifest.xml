@@ -6,7 +6,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/cnup"
+        android:icon="@drawable/cnup_icon"
         android:label="CNUP"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -30,8 +30,8 @@
         <service
             android:name=".service.PushService"
             android:enabled="true"
-            android:exported="true"></service>
-        <activity android:name=".BoardActivity"></activity>
+            android:exported="true"/>
+        <activity android:name=".BoardActivity"/>
     </application>
 
 </manifest>
