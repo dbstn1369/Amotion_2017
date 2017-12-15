@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -11,8 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:background="@drawable/cnuimage"
-            />
+            android:background="@drawable/cnuimage" />
 
 
         <LinearLayout
@@ -27,7 +27,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:background="@drawable/calendar"/>
+                android:background="@drawable/calendar" />
 
             <TextView
                 android:id="@+id/calendarset"
@@ -36,13 +36,20 @@
                 android:layout_gravity="center"
                 android:textColor="#090909" />
 
-
-            <ListView
-                android:id="@+id/scheduleList"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:fillViewport="true">
 
-            </ListView>
+                <ListView
+                    android:id="@+id/scheduleList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </ListView>
+
+            </ScrollView>
+
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>
