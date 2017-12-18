@@ -22,7 +22,6 @@ public class ScheduleView extends LinearLayout
     private TextView content;
     private TextView startDate;
 
-
     public ScheduleView(Context context)
     {
         super(context);

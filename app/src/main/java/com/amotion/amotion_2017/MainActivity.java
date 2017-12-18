@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
 
         try
         {
-            loginCookie = new LoginAsyncTask(MainActivity.this).execute(map).get();
+            loginCookie = new LoginAsyncTask().execute(map).get();
             cseLoginCookie = new CseLoginAsyncTask().execute(cseMap).get();
 
             ArrayList<CseBoardItem> cseBoardItems = new CseBoardAsyncTask().execute(new CseAsyncData(loginCookie, "http://computer.cnu.ac.kr/index.php?mid=notice")).get();
@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity
         {
             e.printStackTrace();
         }
-
 
         //slide관련
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -130,7 +129,7 @@ public class MainActivity extends AppCompatActivity
 
                 try
                 {
-                    loginCookie = new LoginAsyncTask(this).execute(map).get();
+                    loginCookie = new LoginAsyncTask().execute(map).get();
                     cseLoginCookie = new CseLoginAsyncTask().execute(cseMap).get();
 
                     ArrayList<CseBoardItem> cseBoardItems = new CseBoardAsyncTask().execute(new CseAsyncData(loginCookie, "http://computer.cnu.ac.kr/index.php?mid=notice")).get();
@@ -241,9 +240,5 @@ public class MainActivity extends AppCompatActivity
             return null;
         }
     }
-
-    //추후 클래스로 분리할것
-
-
 
 }

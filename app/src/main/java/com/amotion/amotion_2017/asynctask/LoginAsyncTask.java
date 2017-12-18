@@ -21,30 +21,6 @@ import java.util.Map;
  */
 
 public class LoginAsyncTask extends AsyncTask<Map<String, String>, String, Map<String, String>> {
-    Context context;
-    ProgressDialog mProgressDialog;
-    public LoginAsyncTask(Context context)
-    {
-        this.context = context;
-    }
-
-    @Override
-    protected void onPreExecute()
-    {
-        mProgressDialog= new ProgressDialog(context);
-        mProgressDialog.setMessage("다운로드 중");
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        mProgressDialog.show();
-        super.onPreExecute();
-    }
-
-    @Override
-    protected void onPostExecute(Map<String, String> stringStringMap)
-    {
-        mProgressDialog.dismiss();
-        super.onPostExecute(stringStringMap);
-    }
 
     @Override
     protected Map<String, String> doInBackground(Map<String, String>[] maps) {
@@ -57,9 +33,6 @@ public class LoginAsyncTask extends AsyncTask<Map<String, String>, String, Map<S
             logindata.put("user_password", maps[0].get("pw"));
             logindata.put("group_cd", "UN");
             logindata.put("sub_group_cd", "");
-            //logindata.put("sso_url", "http://portal.cnu.ac.kr/enview/portal/");
-            //logindata.put("schedule_selected_date", new Date().toString());
-            //logindata.put("fnc_return", "");
 
             // 로그인
             Connection.Response loginPageResponse = Jsoup.connect("http://e-learn.cnu.ac.kr/login/doLogin.dunet")//세션유지를 위한 사이트 연결

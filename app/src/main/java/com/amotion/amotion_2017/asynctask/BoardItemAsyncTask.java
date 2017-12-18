@@ -25,31 +25,6 @@ import java.util.Map;
 
 public class BoardItemAsyncTask extends AsyncTask<BoardItemAsyncData,String,Board>
 {
-    Context context;
-    ProgressDialog mProgressDialog;
-    public BoardItemAsyncTask(Context context)
-    {
-        this.context = context;
-    }
-
-    @Override
-    protected void onPreExecute()
-    {
-        mProgressDialog= new ProgressDialog(context);
-        mProgressDialog.setMessage("다운로드 중");
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        mProgressDialog.show();
-        super.onPreExecute();
-    }
-
-    @Override
-    protected void onPostExecute(Board board)
-    {
-        mProgressDialog.dismiss();
-        super.onPostExecute(board);
-    }
-
     @Override
     protected Board doInBackground(BoardItemAsyncData... boardItemAsyncData) {
         TableData tableData =  boardItemAsyncData[0].getTableData();

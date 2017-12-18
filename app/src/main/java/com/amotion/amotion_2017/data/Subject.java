@@ -98,7 +98,6 @@ public class Subject {
         this.tableDataArrayList = tableDataArrayList;
     }
 
-
     @Override
     public String toString() {
         return "Subject{ \n" +

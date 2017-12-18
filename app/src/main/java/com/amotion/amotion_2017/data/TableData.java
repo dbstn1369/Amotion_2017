@@ -17,7 +17,6 @@ public class TableData implements Comparable<TableData>
     private Map<String, String> data;
     private String date;
 
-
     public TableData(String title, String boardName, String id, String subjectName, Map<String, String> data, String date)
     {
         this.title = title;
@@ -57,7 +56,6 @@ public class TableData implements Comparable<TableData>
     {
         this.id = id;
     }
-
 
     public String getSubjectName()
     {

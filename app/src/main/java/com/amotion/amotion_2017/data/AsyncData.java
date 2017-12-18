@@ -16,8 +16,6 @@ public class AsyncData {
         this.loginTryCookie = loginTryCookie;
     }
 
-
-
     public ArrayList<Subject> getSubjects() {
         return subjects;
     }

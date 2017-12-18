@@ -35,7 +35,7 @@ public class BoardActivity extends AppCompatActivity
 
         text.setWebViewClient(new WebViewClient());
 
-        System.out.println("test "+board.toString());
+        //System.out.println("test "+board.toString());
 
         title.setText(board.getTitle());
         writer.setText(board.getWriter());

@@ -60,7 +60,6 @@ public class CseBoardItemAsyncTask extends AsyncTask<CseBoardItemAsyncData, Stri
 
             Elements fileElement = boardElement.select(".btm_area").first().select("ul");
 
-
             if (!fileElement.isEmpty()){
                 isFile=true;
             }

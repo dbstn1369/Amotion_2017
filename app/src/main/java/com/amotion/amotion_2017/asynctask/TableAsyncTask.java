@@ -57,7 +57,6 @@ public class TableAsyncTask extends AsyncTask<TableAsyncData, String, ArrayList<
                         .ignoreContentType(true)
                         .execute();
 
-
                 Document document = tableResponse.parse();
 
                 Map<String, String> tableNumData = new HashMap<String, String>();
@@ -161,7 +160,6 @@ public class TableAsyncTask extends AsyncTask<TableAsyncData, String, ArrayList<
                             ));
                         }
                     }
-
 
                     //Log.d("SubjectSubmenuAsyncTask", subMenuDocument.toString());
 

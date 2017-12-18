@@ -1,7 +1,5 @@
 package com.amotion.amotion_2017.asynctask;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -61,18 +59,6 @@ public class SubjectAsyncTask extends AsyncTask<Map<String, String>,Void, ArrayL
 
                 //System.out.println( temp.toString());
             }
-
-            //Log.d("SubjectAsync", subjects.toString());
-
-            // 저장
-            /*
-            SharedPreferences test = context.getSharedPreferences("subjects", MODE_PRIVATE);
-            SharedPreferences.Editor editor = test.edit();
-            Gson gson = new Gson();
-            String json = gson.toJson(subjects);
-            editor.putString("Subjects", json);
-            editor.commit();
-            */
 
         } catch (Exception ex) {
             Log.e("SubjectAsync", "Error");
