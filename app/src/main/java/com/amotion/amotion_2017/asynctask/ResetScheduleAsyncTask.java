@@ -89,9 +89,7 @@ public class ResetScheduleAsyncTask extends AsyncTask<AsyncData, Void, ArrayList
         public void returnday(String day){
             returnday = day;
 
-
         }
-
 
     }
 

@@ -44,10 +44,7 @@ public class ScheduleAsyncTask extends AsyncTask<AsyncData, Void, ArrayList<Sche
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
             String date = simpleDateFormat.format(new Date());
 
-
             data.put("schedule_dt",date);
-
-
 
             Connection.Response scheduleResponse = Jsoup.connect("http://e-learn.cnu.ac.kr/lms/mypage/schedule/doListMySchedule.dunet")
                     .userAgent(userAgent)

@@ -94,7 +94,7 @@ public class ActivityLogin extends AppCompatActivity
                     eLearnLogin.put("id", cseID);
                     eLearnLogin.put("pw", csePW);
 
-                    Map<String, String> eLearnLoginCookie = new LoginAsyncTask(ActivityLogin.this).execute(eLearnLogin).get();
+                    Map<String, String> eLearnLoginCookie = new LoginAsyncTask().execute(eLearnLogin).get();
 
                     Map<String, String> cseLogin = new HashMap<>();
                     cseLogin.put("id", cseID);
@@ -115,7 +115,6 @@ public class ActivityLogin extends AppCompatActivity
                     e.printStackTrace();
                 }
 
-                //SharedPreferences test = getSharedPreferences("login", MODE_PRIVATE);
                 SharedPreferences.Editor editor = test.edit();
                 editor.putString("cseID", cseID);
                 editor.putString("csePW", csePW);

@@ -113,7 +113,6 @@ public class FragmentCnu extends Fragment {
         return rootView;
     }
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

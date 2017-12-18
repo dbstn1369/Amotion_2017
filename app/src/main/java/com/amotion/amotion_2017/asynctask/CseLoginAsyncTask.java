@@ -28,13 +28,7 @@ public class CseLoginAsyncTask extends AsyncTask<Map<String, String>, String, Ma
             Map<String, String> logindata = new HashMap<>();//로그인하기 위한 data 값들.
             logindata.put("user_id", maps[0].get("id"));
             logindata.put("password",maps[0].get("pw"));
-            /*
-            logindata.put("ruleset","@login");
-            logindata.put("error_return_url","/index.php?mid=int_ugreet");
-            logindata.put("success_return_url","/index.php?mid=int_ugreet");
-            logindata.put("act","procMemberLogin");
-            logindata.put("xe_validator_id", "widgets/login_info/skins/default/login_form/1");
-*/
+
             // 로그인
             Connection.Response loginPageResponse = Jsoup.connect("http://computer.cnu.ac.kr/index.php?act=procMemberLogin")//세션유지를 위한 사이트 연결
                     .timeout(60000)//header 값들은 구글 크롬개발자로 구하면 됩니다.

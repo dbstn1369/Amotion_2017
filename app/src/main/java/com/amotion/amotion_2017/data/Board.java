@@ -25,7 +25,6 @@ public class Board implements Parcelable
         this.isFile = isFile;
     }
 
-
     protected Board(Parcel in)
     {
         title = in.readString();

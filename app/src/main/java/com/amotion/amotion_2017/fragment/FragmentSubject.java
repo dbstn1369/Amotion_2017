@@ -144,7 +144,7 @@ public class FragmentSubject extends Fragment {
                     BoardItemAsyncData boardItemAsyncData = new BoardItemAsyncData(MainActivity.loginCookie, subjects.get(subjectIndex).getTableDataArrayList().get(position));
                     System.out.println("test "+boardItemAsyncData);
                     //TODO
-                    Board board = new BoardItemAsyncTask(getActivity()).execute(boardItemAsyncData ).get();
+                    Board board = new BoardItemAsyncTask().execute(boardItemAsyncData ).get();
                     System.out.println(board);
                     Intent intent = new Intent(getContext(), BoardActivity.class);
                     intent.putExtra("Board", board);

@@ -94,22 +94,6 @@ public class SubjectSubmenuAsyncTask extends AsyncTask<AsyncData, Void, ArrayLis
                 subjects.get(index).setSubMenus(subMenus);
             }
 
-
-            for (int i = 0; i < subjects.size(); i++) {
-                //System.out.println(subjects.get(i).getSubMenus());
-            }
-            //Log.d("SubjectAsync", subjects.toString());
-
-            // 저장
-            /*
-            SharedPreferences test = context.getSharedPreferences("submenus", MODE_PRIVATE);
-            SharedPreferences.Editor editor = test.edit();
-            Gson gson = new Gson();
-            String json = gson.toJson(subMenuMap);
-            editor.putString("SubMenu", json);
-            editor.commit();
-            */
-
         } catch (Exception ex)
 
         {

@@ -77,26 +77,6 @@ public class FragmentSchedule extends Fragment {
             }
         }
 
-/*
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Toast.makeText(activity,
-                        "ddd : ",
-                        Toast.LENGTH_SHORT)
-                        .show();
-            }
-        });
-        */
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                //Toast.makeText(getActivity(), "list select", Toast.LENGTH_LONG).show();
-            }
-        });
         return rootView;
     }
 
